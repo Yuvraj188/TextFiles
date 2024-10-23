@@ -1,0 +1,18 @@
+STU642eec0be0b991680796683
+ef4437@edunetmail.com
+
+https://mail.edunetmail.com
+
+Yuvraj9983318185=>password for ibm
+https://www.ibm.com/academic/topic/data-science
+ibm cloud promo code=>92969c643d788d047b2993fb3f8d014b
+https://cloud.ibm.com/registration
+
+
+
+1)first see distribution of data(right skewed,left or normally) so to know which machine learning algo will be using.
+2)if categorical data check the value count.
+3)if continuous data then check the distribution.
+4)in pandas tables are known as data frames.1)read_csv 2)head(),tail(),columns(),info(),describe()
+handling=>delete it(rarely we delete),impute it
+5)

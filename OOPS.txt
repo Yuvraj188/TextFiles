@@ -1,0 +1,489 @@
+EMPTY CLASS SIZE=1 BYTE 
+CLASS WITH ONE INT =4 BYTE
+PROPERTIES ACCESSED USING classname.property
+If we do not specify any access modifiers for the members inside the class, then by default the access modifier for the members will be Private.
+The class members declared as private can be accessed only by the member functions inside the class. They are not allowed to be accessed directly by any object or function outside the class. Only the member functions or the friend functions/ friend class are allowed to access the private data members of the class. 
+concept of getter and setter:
+int getHealth(){
+return health;}
+ where health is a privatemember
+void setHealth(int x){//we can put condtion using if else when to set value and who set value
+ health=x;}
+//read about padding and greedy alignment to find size of class why it is 8 if one int and char is in class
+
+Hero a;//static allocation
+a.getHealth();No, when you write Hero b;, the object b is not stored on the heap. Instead, it is stored on the stack.
+Hero *b=new Hero;//dynamic allocation
+This creates a new object of the class Hero on the heap memory. The new operator dynamically allocates memory for the Hero object and returns the address of the memory location where this object is stored.
+b is a pointer stores address of the class Hero so cant use directly 
+(*b).getHealth();
+b->getHealth()
+Runtime Allocation: Memory is allocated during the program’s execution, not when the program is compiled. This allows the program to handle varying amounts of data, which might not be known beforehand.
+
+behind the scene when we create object
+1) constructor is called first(invoked) no return type & if we not create the constructor automatically made and called.
+and if we define contructor then constructor made by classs(default cconstructor) not called.
+
+1)Default COnstructor
+2)parameterised constructor
+3)copy constructor
+
+class Hero {
+public:
+    int health;
+    int power;
+
+    // Constructor 1: Default constructor
+    Hero() {
+        health = 100;
+        power = 50;
+    }
+
+    // Constructor 2: Parameterized constructor
+    Hero(int health, int p
+
+    ) {
+        this->health = health;//current object address is stored in this
+        (*this).power = power;
+    }
+
+    // Constructor 3: Copy constructor
+  //  Hero(const Hero &h) {
+ //       health = h.health;
+ //       power = h.power;
+//    }
+      Constructor 4:Constructor with Initializer List: A constructor that uses an initializer list to initialize the member variables efficiently.
+};
+
+
+int main() {
+    Hero hero1;              // Calls the default constructor
+    Hero hero2(150, 80);     // Calls the parameterized constructor
+    Hero hero3 = hero2;      // Calls the copy constructor
+   Hero h4(hero2);
+}
+//this is always used with the ->
+//if we make implementation of any constructor then default made by class gone.so when we make parameterized const then default const made by class gone.so we need to make default const by our own to handle Hero hero1;
+
+// no need to write code for copy constructor as it is also automatically made in class and copies.
+ good practice=>more space is available in heap so allocate memroy there means put in member functions for allcoation for ex-
+class A{
+char *name;
+A(){
+char name[100];}}
+
+//shallow copy and deep copy
+default copy constructor create shallow copy
+shallow copy => different name access same memory location
+deep copy=>different memory location
+//example of shallow copy 
+
+
+class Hero {
+public:
+    int health;
+    char *name;
+
+    // Default constructor
+    Hero() {
+        name = new char[100];
+    }
+
+    // Shallow Copy Constructor (implicitly created by the compiler if not defined)
+    Hero(const Hero &temp) {
+        this->health = temp.health;
+        this->name = temp.name;  // Copying the pointer (shallow copy)
+    }
+};
+
+int main() {
+    Hero hero1;
+    Hero hero2 = hero1;  // Shallow copy
+}
+
+
+//example of deep copy
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Hero {
+public:
+    int health;
+    char *name;
+    char level;
+
+    // Default constructor
+    Hero() {
+        cout << "Simple constructor called" << endl;
+        name = new char[100];
+    }
+
+    // Parameterized constructor
+    Hero(int health, char level) {
+        this->health = health;
+        this->level = level;
+        name = new char[100];  // Allocate new memory for name
+    }
+
+    // Deep copy constructor
+    Hero(const Hero &temp) {
+        cout << "Copy constructor called" << endl;
+        this->health = temp.health;
+        this->level = temp.level;
+
+        // Perform deep copy by allocating new memory
+        this->name = new char[strlen(temp.name) + 1];  // Allocate exact size
+        strcpy(this->name, temp.name);  // Copy the content of temp.name
+    }
+
+    // Destructor to free allocated memory
+    ~Hero() {
+        delete[] name;
+    }
+
+    void display() {
+        cout << "Health: " << health << ", Level: " << level << ", Name: " << name << endl;
+    }
+};
+
+int main() {
+    Hero hero1;
+    hero1.health = 100;
+    hero1.level = 'A';
+    strcpy(hero1.name, "Superman");
+
+    // Create a deep copy of hero1
+    Hero hero2 = hero1;  // Calls the deep copy constructor
+
+    hero1.display();
+    hero2.display();
+
+    // Modify hero2's name and observe that hero1's name remains unchanged
+    strcpy(hero2.name, "Batman");
+    hero2.display();
+    hero1.display();  // hero1's name is unaffected
+
+    return 0;
+}
+
+Shallow Copy (first example): Both objects share the same memory for the name pointer, so modifying the name in one object affects the other.
+Deep Copy (second example): A separate memory allocation is made for the name pointer, and the actual content is copied. Modifying name in one object does not affect the other.
+Problem with Shallow Copy: If one object modifies the memory that is shared (pointed to by the pointers), it will affect the other object as well. Similarly, if one object is deleted, the other object will be left with a dangling pointer.
+
+
+copy assignment operator
+//IF a and b are objects of same class then a=b will copy b values into a
+
+destructor
+to deallocate the memory used by the object when object is going out of scope.it also automatically created when object is created.&no return type&no ip parameter & same name as class
+
+denoted by ~classname(){cout<<"dest called"}
+
+concept=>object created by static allocation =>destructor called automatically 
+object created by dynamic allocation=>destructor has to be called manually by writing 
+delete objectname;
+
+
+//static keyword
+create datamember belong to class accessed by classname 
+in class
+static int time;
+out of class initialize it
+int ClassName::time=5;
+In C++, if you try to initialize a static member of a class inside the class itself (rather than outside using the scope resolution operator), you will get a compilation error.This is because static members of a class exist at the class level rather than at the object level. Their memory is allocated once for the entire class, not for each object, and they need to be initialized in the global scope.
+and to use it in mainfn we use by classname::time;
+static function can be called without object and with object  also but not recommended.
+Static functions can directly access static members.
+To access a non-static member from a static function, you need to pass an object reference (or pointer) to the static function, so the function can access the object's data.
+Static functions are useful for operations that are not dependent on object-specific data, such as managing class-wide information.
+there is no this keyword with the static functions.
+
+encapsulation=>wrapping up data members and functions
+fully encapsulated class=>all data members are private
+why encapsulation=>data hiding security increases & we can make our class read only using getters no setters & unit testing.
+
+inheritance:private member cannot be inherited
+protected=>similar to private cant be accessed outside the class except the child class,main class also cannot acess.
+1)simple 2)multilevel 3)multiple(2 class in one) class A:public A,public B{}
+Derived class value shadows the Base class value.
+When you refer to value directly in the derived class, it accesses the derived class's member.
+To access the base class’s member, you use the scope resolution operator (BaseClass::value).
+4)hierarchical=>one parent class severs to two different child class
+5)hybrid 
+INHERITANCE AMBIGUITY=>
+Inheritance ambiguity occurs in multiple inheritance when two or more parent classes have a member (data or function) with the same name. The derived class inherits both versions of the member, creating ambiguity about which member to access
+
+#include <iostream>
+using namespace std;
+
+class BaseClass1 {
+public:
+    void display() {
+        cout << "Display from BaseClass1" << endl;
+    }
+};
+
+class BaseClass2 {
+public:
+    void display() {
+        cout << "Display from BaseClass2" << endl;
+    }
+};
+
+class DerivedClass : public BaseClass1, public BaseClass2 {
+public:
+    void show() {
+        BaseClass1::display();  // Explicitly calling BaseClass1's display()
+        BaseClass2::display();  // Explicitly calling BaseClass2's display()
+    }
+};
+
+int main() {
+    DerivedClass obj;
+    obj.show();  // Now it's clear which function is called
+    obj.BaseClass1::display();  // Calling BaseClass1's display
+    obj.BaseClass2::display();  // Calling BaseClass2's display
+
+    return 0;
+}
+
+You can solve the ambiguity by qualifying the data member with the base class name using the scope resolution operator (BaseClass1::value and BaseClass2::value).
+
+
+Polymorphism:many forms(example us)
+compile time(static) and run time(dynamic) polymorphism
+compile time=>1)fn overloading 2)operator overloading
+
+fn overloading => happens in same class just change the signature of function(parameter) and change in just return cannot overload the function
+
+Once a parameter has a default value, all parameters to its right must also have default values.
+
+
+###extra 
+
+The line Complex() : real(0), imag(0) {} is an example of a constructor using an initializer list in C++. Let’s break down the components:
+
+Components:
+Complex():
+
+This is the default constructor of the class Complex. It is a constructor that takes no parameters and initializes an object of the class.
+A default constructor is used when you create an object without passing any arguments, like Complex c;.
+: real(0), imag(0):
+
+This is an initializer list. It is used to initialize the member variables of the class (real and imag in this case) before the body of the constructor is executed.
+In this example, the member variables real and imag are initialized to 0 when the object is created.
+{}:
+
+This is the body of the constructor, which is empty in this case. If you needed to perform any additional operations after the member initialization, you could place them here.
+Since the member variables are already initialized in the initializer list, no additional code is required in the body.
+
+Why Use an Initializer List?
+Efficiency: Using an initializer list is more efficient than assigning values in the constructor body because it directly initializes the members rather than assigning them values after default construction.
+Required for Certain Types: Some types, such as const members or reference members, can only be initialized using an initializer list because they must be initialized at the time of construction.
+Readability: It makes the code cleaner by keeping initialization separate from any other logic inside the constructor.
+
+unary operator overloading:
+
+#include <iostream>
+using namespace std;
+
+class Counter {
+private:
+    int count;
+
+public:
+    Counter() : count(0) {}
+
+    // Overloading the unary ++ operator (prefix)
+    Counter operator++() {
+        ++count;  // Increment count
+        return *this;  // Return the updated object
+    }
+
+    // Function to display count
+    void display() {
+        cout << "Count: " << count << endl;
+    }
+};
+
+int main() {
+    Counter c;
+
+    ++c;  // Use overloaded ++ operator (prefix)
+    c.display();  // Output: Count: 1
+
+    ++c;  // Use overloaded ++ operator again
+    c.display();  // Output: Count: 2
+
+    return 0;
+}
+
+
+binary operator overloading :
+#include <iostream>
+using namespace std;
+
+class Complex {
+private:
+    int real, imag;
+
+public:
+    Complex() : real(0), imag(0) {}
+    Complex(int r, int i) : real(r), imag(i) {}
+
+    // Overloading the + operator
+    Complex operator+(const Complex& obj) {
+        Complex temp;
+        temp.real = real + obj.real;  // Adding real parts
+        temp.imag = imag + obj.imag;  // Adding imaginary parts
+        return temp;  // Return the result
+    }
+
+    // Function to display the complex number
+    void display() {
+        cout << real << " + " << imag << "i" << endl;
+    }
+};
+
+int main() {
+    Complex c1(3, 4), c2(1, 2);
+
+    Complex c3 = c1 + c2;  // Use overloaded + operator
+
+    c3.display();  // Output: 4 + 6i
+
+    return 0;
+}
+
+real: Refers to the real member of c1, because c1 is the object on which the + operator is being called.
+obj.real: Refers to the real member of c2, which is the parameter passed to the operator+ function.
+
+
+
+Run time polymorphism=>method overriding
+rules=>same name of method in child as well as parent with same parameters or no parameters at all and inheritance is necessary
+
+Virtual Functions: Functions that can be overridden in derived classes to provide specific implementations. When a function is marked as virtual, it enables dynamic dispatch, meaning the function that gets called is determined by the actual object type at runtime, not the reference type.
+
+Virtual Functions:
+Virtual functions allow derived classes to override the behavior of a function declared in the base class. This is key to achieving runtime polymorphism.
+Rules for Virtual functions
+Virtual functions should not be static but must be a member of the class.
+They should be defined in public section of the class.
+It is possible to define virtual functions outside the class, in this case, the declaration is done inside the class and the definition is outside the class. The keyword virtual should be placed in declaration part but not in definition part.
+It also possible to return a value from virtual functions.
+Function Overriding:
+In function overriding, the function in the derived class has the same signature as the function in the base class but provides a different implementation.
+
+Dynamic Dispatch:
+When a base class pointer or reference is used to call a virtual function, C++ determines the type of the actual object being referenced or pointed to and calls the appropriate function.
+
+#include <iostream>
+using namespace std;
+
+// Base class
+class Animal {
+public:
+    // Virtual function
+    virtual void sound() {
+        cout << "Animal makes a sound" << endl;
+    }
+};
+
+// Derived class 1
+class Dog : public Animal {
+public:
+    void sound() override {
+        cout << "Dog barks" << endl;
+    }
+};
+
+// Derived class 2
+class Cat : public Animal {
+public:
+    void sound() override {
+        cout << "Cat meows" << endl;
+    }
+};
+
+int main() {
+    Animal* animalPtr;  // Base class pointer
+
+    Dog dog;
+    Cat cat;
+
+    // Pointing to the derived class object
+    animalPtr = &dog;
+    animalPtr->sound();  // Calls Dog's sound function
+
+    animalPtr = &cat;
+    animalPtr->sound();  // Calls Cat's sound function
+
+    return 0;
+}
+
+
+Without the virtual keyword, C++ will always call the version of the function that belongs to the type of the pointer or reference, even if the actual object it points to is of a derived class. In other words, the base class function will be called, not the derived class's overridden version.
+
+Key Differences:
+Base Class Reference or Pointer (without virtual):
+The function of the base class is called (early binding) because the reference or pointer is treated as if it refers to the base class.
+Derived Class Reference:
+Even without virtual, the function of the derived class is called because the reference is directly bound to the derived object (no need for polymorphism here).
+
+If the function is not virtual, the method is resolved early and the function called is selected according to the declared type of the pointer.
+
+So, a base class pointer object can point to the objects of both the base and derived class objects.No, a derived class pointer cannot point to an object of the base class. This is because of the way inheritance and memory layouts work in C++
+
+Why a Base Class Pointer Can Point to Both Base and Derived Class Objects:
+When a derived class inherits from a base class, the derived class object contains all members and functions of the base class. In memory, the base class portion exists as part of the derived class object.
+
+Because of this, a pointer to the base class can safely point to an object of the derived class, and the base class's members and functions can be accessed.
+
+A derived class pointer cannot point to a base class object because the base class object does not include the derived class members, and trying to access them would cause undefined behavior.
+
+How to access Private functions using Virtual functions
+ A user can call private member function of the derived class from the base class pointer with the help of virtual keyword.
+
+The compiler checks for access specifier only at compile time. So at runtime when late binding occurs, it does not check whether it is calling the private function or the public function.
+If you declare a function as virtual only in the derived class, it does not change the base class’s behavior. The function in the base class still needs to be declared as virtual for runtime polymorphism to work. Adding virtual to the derived class’s function doesn’t change the fact that the base class function needs to be virtual.
+If both the base class and the derived class declare the same function as virtual, the behavior follows runtime polymorphism, where the function call is resolved at runtime based on the actual type of the object (not the type of the pointer or reference).
+
+#include <iostream>
+using namespace std;
+class Base { // This is class Base
+
+
+	public:
+		virtual void display() { 
+			cout << "This is base class display()" << endl;
+		}
+};
+class Derived : public Base {  // This is class Derived1 derived from Base class publicly
+
+
+	public:
+		void display() { 
+			cout << "This is derived class display()" << endl;
+		}
+		virtual void show() { 
+			cout << "This is derived class show()" << endl;
+		}
+};
+
+
+Virtual functions in Derived classes
+ int main() {
+	Base *p; // Pointer object is created to the Base class
+	Base ob1; // Object is created to the Base class
+	Derived ob2; // Object is created to the Derived class
+	p = &ob1; // Address of Base class object is stored in the pointer object
+	p->display(); // Access the display() method of Base class
+	p = &ob2; // Address of Derived class object is stored in the pointer object
+	p->display(); // Late binding occurs and which can access the display() method of Derived class
+	p->show(); // Error will be displayed
+}
+
+
+Abstraction=>implementation hiding

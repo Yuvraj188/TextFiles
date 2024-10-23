@@ -1,0 +1,21 @@
+tool1 for research=>chatgpt
+prompt=>act as a marketing professional in swiggy.your boss at swiggy has asked you to create a  10 page preseentation on zomatio gold(zomato gold was launched by zomato just last week and it has a been a super hit in a market ) yoour boss needs to discuss about zomato gold and its implication on swiggy buisness.
+
+tool2=>gamma.app for making ppt 
+tool3=>found some article but cannot read due to the agency asking for money ???  12ft.io
+tool4=>for scientific and research paper 
+sci-hub.se
+tool5=>summarise article/linkedin post =>merlin chrome extension 
+
+tool6=>to summarise a video=>merlin
+tool7=>playgroundai.com to make pictures/images
+
+tool8=>practise for a job interview or sppech  yoodli.ai
+
+toool9=>coding related tools   Bard.google.com
+
+tool8=>bugs in code debugcode.ai
+too9=>for excel formulae formula.dog/
+
+
+for compression tools=> 11 zons

@@ -1,0 +1,14 @@
+1)
+supervised ml
+independent feature-many(input)
+dependent feature-one(which is to be predicted)
+2)in regression problem output will be a continuous variable
+-Continuous variables can take any value within a range and can be infinitely subdivided.
+-Discontinuous (categorical) variables consist of distinct categories with clear separations, and observations fall into one specific category.(ex gender(either male or female))
+3)classification problem=> when there are fixed no. of output then classification ex pass or fail. if 2 output then binary classification otherwise multiclass classification
+
+
+4) unsupervised machine learning(no dependent variable )
+two main problems 1) clustering -> find similar groups not have outputs like supervised ex-customer segmentation
+                  2)dimensionality reduction ->reduce the number of features or variables in a dataset while preserving as much relevant information as possible. 
+https://www.youtube.com/watch?v=J_LnPL3Qg70&list=PLeo1K3hjS3uvCeTYTeyfe0-rN5r8zn9rw&index=3

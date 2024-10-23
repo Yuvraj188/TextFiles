@@ -1,0 +1,559 @@
+
+write mongosh in cmd
+show dbs =>to view all databases
+use school=>create new database if not exist and use it 
+db.createCollection("yourCollectionName")
+
+db.students.insertOne({name:"raju",age:25})//this also create collection if not exist 
+db.students.find()//to return the document
+show collections //return all the collections in the database
+mongodb will create database only when we insert collection in it.
+collection is made without documents also and in a db multiple collecitons exist.
+
+db.collection_name.drop()//to drop collection
+db.dropDatabase()//
+The MongoDB shell uses JavaScript-like syntax, so quotes around keys are sometimes optional if the field names follow JavaScript identifier rules.
+But if you have spaces or special characters in the field name, you'll need quotes:
+
+
+db.cars.insertOne()//{} insert data into collection
+db.cars.insertMany()//[{},{},{}]
+
+
+db.cars.find()//return all the data
+db.cars.findOne()//return only 1 document
+
+db.cars.find({},{model:1})
+
+{} as the first parameter means "return all documents."
+{ model: 1 } as the second parameter means "only include the model field in the results."
+
+In MongoDB, the find() function is used to query documents from a collection. It takes two optional parameters:
+
+Query Filter (First Parameter): The first parameter is a filter that specifies the conditions for retrieving documents (e.g., {"maker": "Tata"}). If you want to return all documents, you pass an empty filter {}.
+
+Projection (Second Parameter): The second parameter is a projection, which defines which fields should be returned from the documents. A projection is usually an object where 1 means the field will be included in the result, and 0 means it will be excluded.
+
+now it provided id also with model but what if i dont want id
+db.cars.find({},{model:1,_id:0})
+
+now what if want to filter out suppose only petrol cars needed.
+car_dealership> db.cars.find({fuel_type:"Petrol"},{model:1})
+
+for nested documents
+db.cars.find({"engine.type":"Turbocharged"})
+In MongoDB, when you're querying a nested field like "engine.type", you need to use quotes around the entire field path, "engine.type", for the query to work. 
+
+db.cars.find({ maker: "Tata" }).limit(2)
+This query retrieves only 2 documents that match the condition (maker: "Tata").
+
+db.cars.find({features:'Bluetooth'})
+This query will return all documents that have 'Bluetooth' as a value in the features array field.
+//UPDATE
+
+ updateOne() in MongoDB:
+Purpose: The updateOne() method is used to update a single document that matches the given filter criteria. If multiple documents match the filter, only the first matching document will be updated.
+Structure: It takes two main arguments:
+Filter: Specifies the condition to find the document(s) to update.
+Update Operator: Specifies how the document(s) should be updated (e.g., using $set, $push, etc.).
+Use Case: When you need to update just one document in a collection.
+db.cars.updateOne(
+  { maker: "Tata" },           // Filter: Find a document with maker "Tata"
+  { $set: { model: "Harrier" } }  // Update: Set the "model" field to "Harrier"
+)
+
+$set:
+Purpose: Updates the value of a field. If the field doesn’t exist, it creates the field.
+
+$push:
+Purpose: Adds an item to an array field. If the array doesn’t exist, it creates it.
+db.cars.updateOne(
+  { maker: "Tata" },                   // Filter: Find document with maker "Tata"
+  { $push: { features: "Sunroof" } }   // Update: Add "Sunroof" to the "features" array we not overwrite just add
+)
+for example array is  features: [ 'All-Wheel Drive', 'Navigation System', 'Cruise Control' ],
+similarly $pull will remove out value from array
+
+ updateMany() in MongoDB:
+Purpose: The updateMany() method updates all documents that match the filter criteria, rather than stopping after the first match.
+
+
+upsertedCount: 0
+This means that no new documents were inserted during the update operation.
+
+The $each operator in MongoDB is used in combination with the $push operator to add multiple elements to an array field at once. Without $each, the $push operator would only allow you to add a single element to an array. With $each, you can append multiple elements in one go.
+
+
+db.collection.updateOne(
+   { <filter> },
+   { $push: { <arrayField>: { $each: [ <value1>, <value2>, ... ] } } }
+)
+
+db.users.updateOne(
+   { _id: 1 },
+   { $push: { 
+       scores: { 
+           $each: [88, 92, 75], 
+           $sort: -1,  // Sort in descending order (highest scores first)
+           $slice: 3   // Keep only the top 3 scores
+       } 
+   } }
+)
+Positive $slice: Keeps the first N elements.
+
+Example: $slice: 5 keeps the first 5 elements.
+Negative $slice: Keeps the last N elements.
+
+Example: $slice: -5 keeps the last 5 elements (most recent ones, which is typically more common).
+
+The $slice operator applies to the entire array (both existing and newly inserted elements).
+
+$sort:either 1 for ascending or -1 for descending.
+
+In MongoDB, upsert is a powerful feature that allows you to insert a new document if no matching document is found during an update operation. If a matching document does exist, it will be updated instead. This is useful for ensuring that you don’t have to check for the existence of a document before deciding to update or insert it.
+db.collection.updateOne(
+   { <filter> },  // The filter to find the document
+   { <update> },  // The update operations
+   { upsert: true }  // Option to create a new document if none found
+)
+
+now to Delete or Remove
+db.users.updateOne(
+   { _id: 1 },
+   { $unset: { email: "", age: "" } }  // Remove both email and age fields
+)
+
+now what if we want to set color:red to all the documents then we will do
+db.cars.updateMany({},{$set:{color:"Blue}})
+
+
+
+db.cars.deleteOne({fuel_type:"Petrol"})//removes one document  with fuel_type as petrol
+db.cars.deleteMany({fuel_type:"Petrol"})
+
+db.cars.insertOne({date:new Date()}) //to add date and time
+db.cars.insertOne({TS:new Timestamp()})
+
+
+db.users.countDocuments({ name: "John" })//ount how many users have the name "John"
+db.collection_name.countDocuments()//want to know how many documents 
+(records) it contains:
+
+Use countDocuments() when you need an exact count or are applying filters.
+Use estimatedDocumentCount() when you just need a quick estimate of the total number of documents in a collection.
+
+RELATIONAL OPERATORS:
+
+$eq	Equal to
+$ne	Not equal to
+$gt	Greater than
+$gte	Greater than or equal to
+$lt	Less than
+$lte	Less than or equal to
+$in	Matches any value in an array
+$nin	Does not match any value in an array
+$exists	Field exists (true/false)
+$type	Matches BSON data type used to find field with null values
+
+db.users.find({ age: { $eq: 25 } })
+db.users.find({ age: { $in: [25, 30, 35] } })//This finds documents where age is 25, 30, or 35.
+db.users.find({ age: { $nin: [25, 30, 35] } })//This finds documents where age is not 25, 30, or 35.
+db.users.find({ age: { $exists: true } })//This finds documents where the age field exists.
+db.users.find({ age: { $type: "int" } })//This finds documents where the age field is of type int.
+Example Combining Operators:
+db.users.find({ age: { $gte: 20, $lt: 30 } })//This finds documents where age is greater than or equal to 20 and less than 30.
+
+these operator to be put in query part not in projection
+db.cars.findOne({ model: 'Honda', "engine.cc": { $gt: 1700 } }, { "engine.cc": 1 })
+
+now to combine queries on multiple fields :ex find car which is diesel sunroof and turbocharged engine
+
+
+$and	Matches documents that satisfy all the given conditions
+$or	Matches documents that satisfy at least one of the given conditions
+$not	Inverts the result of a query condition
+$nor	Matches documents that do not satisfy any of the given conditions
+$expr	Allows the use of aggregation expressions in the query
+db.cars.find({ "engine.cc": { $not: { $gt: 1500 } } })This finds documents where "engine.cc" is not greater than 1500.
+db.cars.find({ $or: [ { model: 'Honda' }, { model: 'Toyota' } ] })
+
+Example (Combining $and and $or):
+
+db.cars.find({
+  $and: [
+    { $or: [ { model: 'Honda' }, { model: 'Toyota' } ] },
+    { "engine.cc": { $gt: 1500 } }
+  ]
+})
+
+
+
+Where is $expr useful?
+When you need to compare two fields inside the same document.
+When you want to use arithmetic operations on fields.
+When you need to combine conditions using logical operators within a query.
+Example 1: Field-to-Field Comparison
+db.employees.find({
+  $expr: {
+    $gt: [ "$salary", "$expenses" ]
+  }
+})
+salary greater than expenses,we put on right side from which we have to compare
+Example 2: Arithmetic Operations
+db.products.find({
+  $expr: {
+    $lt: [ { $subtract: [ "$price", "$discount" ] }, 100 ]
+  }
+})
+ You want to find all products where the price after discount is less than $100.
+Example 3: Combining Logical Expressions
+You have an inventory collection, where each document contains quantity and threshold fields. You want to find products that either have low stock (quantity less than threshold) or high stock (quantity more than double the threshold).
+db.inventory.find({
+  $expr: {
+    $or: [
+      { $lt: [ "$quantity", "$threshold" ] },
+      { $gt: [ "$quantity", { $multiply: [ "$threshold", 2 ] } ] }
+    ]
+  }
+})
+Example 4: Using $expr with Date Comparisons
+db.tasks.find({
+  $expr: {
+    $gt: [
+      { $subtract: [ "$dueDate", "$createdDate" ] },
+      30 * 24 * 60 * 60 * 1000  // 30 days in milliseconds
+    ]
+  }
+})
+$gt: Checks if the difference between dueDate and createdDate is greater than 30 days.
+$subtract: Subtracts createdDate from dueDate to get the time difference.
+The constant 30 * 24 * 60 * 60 * 1000 converts 30 days to milliseconds (since MongoDB stores dates as milliseconds from the UNIX epoch).
+
+
+Detailed Explanation of MongoDB's $expr Operator
+The $expr operator allows you to incorporate aggregation expressions into your MongoDB queries. While regular queries compare a field with a static value, $expr lets you perform field-to-field comparisons, use mathematical calculations, or apply logical expressions as part of the query. It enables you to perform dynamic and more complex comparisons between fields, unlike the usual queries that rely on static comparisons.
+
+Basic Syntax:
+javascript
+Copy code
+{ $expr: { <expression> } }
+Where is $expr useful?
+When you need to compare two fields inside the same document.
+When you want to use arithmetic operations on fields.
+When you need to combine conditions using logical operators within a query.
+Now, let’s go through multiple examples to explore $expr in detail.
+
+Example 1: Field-to-Field Comparison
+Scenario:
+You have an employees collection, where each document contains a salary and expenses field. You want to find employees whose salary is greater than their expenses.
+
+Query:
+javascript
+Copy code
+db.employees.find({
+  $expr: {
+    $gt: [ "$salary", "$expenses" ]
+  }
+})
+Explanation:
+$expr: We use this operator to perform field-to-field comparisons.
+$gt: The greater-than operator, checks if salary is greater than expenses.
+$salary and $expenses: The dollar signs ($) indicate field references in the document.
+Example Data:
+json
+Copy code
+{
+  "name": "John",
+  "salary": 5000,
+  "expenses": 3000
+}
+John would be included in the result because his salary (5000) is greater than his expenses (3000).
+
+Example 2: Arithmetic Operations
+Scenario:
+You have a products collection, and each product has a price and discount. You want to find all products where the price after discount is less than $100.
+
+Query:
+javascript
+Copy code
+db.products.find({
+  $expr: {
+    $lt: [ { $subtract: [ "$price", "$discount" ] }, 100 ]
+  }
+})
+Explanation:
+$lt: The less-than operator, checks if the result of a subtraction is less than 100.
+$subtract: Subtracts discount from price (i.e., calculates price - discount).
+The query looks for documents where the price after the discount is less than 100.
+Example Data:
+json
+Copy code
+{
+  "product_name": "Smartphone",
+  "price": 150,
+  "discount": 60
+}
+The effective price is 150 - 60 = 90, which is less than 100, so this product would be returned.
+
+Example 3: Combining Logical Expressions
+Scenario:
+You have an inventory collection, where each document contains quantity and threshold fields. You want to find products that either have low stock (quantity less than threshold) or high stock (quantity more than double the threshold).
+
+Query:
+javascript
+Copy code
+db.inventory.find({
+  $expr: {
+    $or: [
+      { $lt: [ "$quantity", "$threshold" ] },
+      { $gt: [ "$quantity", { $multiply: [ "$threshold", 2 ] } ] }
+    ]
+  }
+})
+Explanation:
+$or: Combines two conditions. The query will match documents if either condition is true.
+$lt: Checks if the quantity is less than threshold (low stock).
+$gt: Checks if the quantity is greater than 2 * threshold (high stock).
+$multiply: Multiplies the threshold by 2.
+Example Data:
+json
+Copy code
+{
+  "item": "Laptop",
+  "quantity": 30,
+  "threshold": 20
+}
+In this case, since quantity (30) is greater than 2 * threshold (40), it would not be returned. But if quantity were 15, it would satisfy the low stock condition.
+
+Example 4: Using $expr with Date Comparisons
+Scenario:
+You have a tasks collection with createdDate and dueDate. You want to find tasks that were created more than 30 days before the due date.
+
+Query:
+javascript
+Copy code
+db.tasks.find({
+  $expr: {
+    $gt: [
+      { $subtract: [ "$dueDate", "$createdDate" ] },
+      30 * 24 * 60 * 60 * 1000  // 30 days in milliseconds
+    ]
+  }
+})
+Explanation:
+$gt: Checks if the difference between dueDate and createdDate is greater than 30 days.
+$subtract: Subtracts createdDate from dueDate to get the time difference.
+The constant 30 * 24 * 60 * 60 * 1000 converts 30 days to milliseconds (since MongoDB stores dates as milliseconds from the UNIX epoch).
+Example Data:
+json
+Copy code
+{
+  "task": "Submit report",
+  "createdDate": new Date("2024-08-01"),
+  "dueDate": new Date("2024-09-10")
+}
+In this example, the task would be returned if the difference between the dueDate and createdDate is more than 30 days.
+
+Example 5: Field-to-Field Comparison with Arrays
+db.students.find({
+  $expr: {
+    $setIsSubset: [ "$requiredCourses", "$completedCourses" ]
+  }
+})
+$setIsSubset: Checks if all elements of requiredCourses are present in completedCourses.
+{
+  "name": "Alice",
+  "completedCourses": ["Math", "Science", "History"],
+  "requiredCourses": ["Math", "Science"]
+}
+
+Detailed Explanation of MongoDB's $expr Operator
+The $expr operator allows you to incorporate aggregation expressions into your MongoDB queries. While regular queries compare a field with a static value, $expr lets you perform field-to-field comparisons, use mathematical calculations, or apply logical expressions as part of the query. It enables you to perform dynamic and more complex comparisons between fields, unlike the usual queries that rely on static comparisons.
+
+Basic Syntax:
+javascript
+Copy code
+{ $expr: { <expression> } }
+Where is $expr useful?
+When you need to compare two fields inside the same document.
+When you want to use arithmetic operations on fields.
+When you need to combine conditions using logical operators within a query.
+Now, let’s go through multiple examples to explore $expr in detail.
+
+Example 1: Field-to-Field Comparison
+Scenario:
+You have an employees collection, where each document contains a salary and expenses field. You want to find employees whose salary is greater than their expenses.
+
+Query:
+javascript
+Copy code
+db.employees.find({
+  $expr: {
+    $gt: [ "$salary", "$expenses" ]
+  }
+})
+Explanation:
+$expr: We use this operator to perform field-to-field comparisons.
+$gt: The greater-than operator, checks if salary is greater than expenses.
+$salary and $expenses: The dollar signs ($) indicate field references in the document.
+Example Data:
+json
+Copy code
+{
+  "name": "John",
+  "salary": 5000,
+  "expenses": 3000
+}
+John would be included in the result because his salary (5000) is greater than his expenses (3000).
+
+Example 2: Arithmetic Operations
+Scenario:
+You have a products collection, and each product has a price and discount. You want to find all products where the price after discount is less than $100.
+
+Query:
+javascript
+Copy code
+db.products.find({
+  $expr: {
+    $lt: [ { $subtract: [ "$price", "$discount" ] }, 100 ]
+  }
+})
+Explanation:
+$lt: The less-than operator, checks if the result of a subtraction is less than 100.
+$subtract: Subtracts discount from price (i.e., calculates price - discount).
+The query looks for documents where the price after the discount is less than 100.
+Example Data:
+json
+Copy code
+{
+  "product_name": "Smartphone",
+  "price": 150,
+  "discount": 60
+}
+The effective price is 150 - 60 = 90, which is less than 100, so this product would be returned.
+
+Example 3: Combining Logical Expressions
+Scenario:
+You have an inventory collection, where each document contains quantity and threshold fields. You want to find products that either have low stock (quantity less than threshold) or high stock (quantity more than double the threshold).
+
+Query:
+javascript
+Copy code
+db.inventory.find({
+  $expr: {
+    $or: [
+      { $lt: [ "$quantity", "$threshold" ] },
+      { $gt: [ "$quantity", { $multiply: [ "$threshold", 2 ] } ] }
+    ]
+  }
+})
+Explanation:
+$or: Combines two conditions. The query will match documents if either condition is true.
+$lt: Checks if the quantity is less than threshold (low stock).
+$gt: Checks if the quantity is greater than 2 * threshold (high stock).
+$multiply: Multiplies the threshold by 2.
+Example Data:
+json
+Copy code
+{
+  "item": "Laptop",
+  "quantity": 30,
+  "threshold": 20
+}
+In this case, since quantity (30) is greater than 2 * threshold (40), it would not be returned. But if quantity were 15, it would satisfy the low stock condition.
+
+Example 4: Using $expr with Date Comparisons
+Scenario:
+You have a tasks collection with createdDate and dueDate. You want to find tasks that were created more than 30 days before the due date.
+
+Query:
+javascript
+Copy code
+db.tasks.find({
+  $expr: {
+    $gt: [
+      { $subtract: [ "$dueDate", "$createdDate" ] },
+      30 * 24 * 60 * 60 * 1000  // 30 days in milliseconds
+    ]
+  }
+})
+Explanation:
+$gt: Checks if the difference between dueDate and createdDate is greater than 30 days.
+$subtract: Subtracts createdDate from dueDate to get the time difference.
+The constant 30 * 24 * 60 * 60 * 1000 converts 30 days to milliseconds (since MongoDB stores dates as milliseconds from the UNIX epoch).
+Example Data:
+json
+Copy code
+{
+  "task": "Submit report",
+  "createdDate": new Date("2024-08-01"),
+  "dueDate": new Date("2024-09-10")
+}
+In this example, the task would be returned if the difference between the dueDate and createdDate is more than 30 days.
+
+Example 5: Field-to-Field Comparison with Arrays
+Scenario:
+You have a students collection with fields completedCourses and requiredCourses. You want to find students who have completed all the required courses.
+
+Query:
+javascript
+Copy code
+db.students.find({
+  $expr: {
+    $setIsSubset: [ "$requiredCourses", "$completedCourses" ]
+  }
+})
+Explanation:
+$setIsSubset: Checks if all elements of requiredCourses are present in completedCourses.
+This is useful when comparing arrays to see if one array is a subset of another.
+Example Data:
+json
+Copy code
+{
+  "name": "Alice",
+  "completedCourses": ["Math", "Science", "History"],
+  "requiredCourses": ["Math", "Science"]
+}
+Alice would be included in the result because all the required courses are present in her completed courses.
+
+Example 6: $expr with $cond (Conditional Logic)
+Scenario:
+You have a sales collection where each sale has a category and price. You want to apply a different discount based on the category (e.g., 10% for electronics, 5% for clothing). You can use $expr with $cond to return sales with adjusted prices.
+db.sales.find({
+  $expr: {
+    $cond: [
+      { $eq: [ "$category", "electronics" ] },   // If category is electronics
+      { $multiply: [ "$price", 0.9 ] },          // Apply 10% discount
+      { $multiply: [ "$price", 0.95 ] }          // Otherwise, apply 5% discount
+    ]
+  }
+})
+$cond: A conditional operator that behaves like an if-else statement.
+$eq: Checks if the category is "electronics".
+$multiply: Applies a discount by multiplying the price by 0.9 (for electronics) or 0.95 (for other categories).
+
+Array Operators:
+Suppose you have a students collection, where each student has a field subjects which is an array of subjects they have taken. You want to find students who have taken exactly 3 subjects.
+db.students.find({
+  subjects: { $size: 3 }
+})
+$all Operator
+The $all operator is used to match documents where the array field contains all the specified elements, regardless of the order or additional elements. It’s useful when you want to check whether an array contains at least a certain set of values.
+db.books.find({
+  genres: { $all: ["Science Fiction", "Fantasy"] }
+})
+
+ find documents where the features array has more than 3 elements
+db.cars.aggregate([
+  {
+    $match: {
+      $expr: {
+        $gt: [{ $size: "$features" }, 3]
+      }
+    }
+  }
+])
+
+or 
+
+db.cars.find({$expr:{$gt:[{$size:"$features"},3]}})

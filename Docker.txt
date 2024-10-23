@@ -1,0 +1,249 @@
+Docker containers rely on Linux kernel features, which is why even on Windows, Docker sets up a Linux environment to run Linux-based containers.
+
+
+
+Yes, that's correct! When you run a Docker image, it becomes a container. Let’s go through the process step by step:
+
+Step-by-Step Explanation:
+Create a Docker Image:
+
+You define your application and its environment in a Dockerfile and build it into a Docker image.
+This image is a read-only template containing everything needed to run your application (code, libraries, settings).
+Run the Image:
+
+When you execute the command to run the image, like docker run my-image, Docker creates a new container based on that image.
+The command initiates the image, setting up a new environment where the application will run.
+Container Creation:
+
+The Docker engine creates a container as an instance of the image.
+This container is isolated and has its own filesystem, network interfaces, and processes.
+proof for this is when we create multiple coontainers than all the containers can listen on single port that means they all run independently.
+Execution:
+
+The application within the container starts running.
+You can interact with this container while it’s running (e.g., through the web interface, command line, etc.).
+
+
+Single Image, Multiple Containers:
+
+You can create multiple containers from a single Docker image. Each container is a separate instance that runs independently.
+Same Application:
+
+Since all containers are created from the same image, they all run the same application code and configuration defined in that image.
+
+
+Use Cases:
+
+This ability is useful for several scenarios, such as:
+Scaling: You can run multiple containers to handle increased load, like web traffic. For example, if you have a web application, you can spin up multiple containers to serve more users simultaneously.
+Testing: You can run different versions of the same application in separate containers to test new features without interfering with the production version.
+
+
+On Docker Hub, you upload images, not containers
+
+Definition: The Docker daemon is a background service that runs on your system and is responsible for managing Docker containers, images, networks, and volumes.
+
+
+The FROM Instruction
+What is the FROM Instruction?
+
+The FROM instruction in a Dockerfile specifies the base image that your new image will be built upon. It tells Docker which existing image to start with before adding your own layers.
+
+
+
+
+No problem! Let’s break down the concept of layering in Docker in a simple way.
+
+What is Layering in Docker?
+Docker images are built using a layered file system. Each instruction in a Dockerfile creates a new layer in the image. Here’s how it works:
+
+Layer Creation:
+
+Each command in your Dockerfile (like FROM, RUN, COPY, etc.) results in a new layer being added to the image.
+These layers are stacked on top of each other to form the final image.
+Immutable Layers:
+
+Once a layer is created, it is immutable, meaning it cannot be changed. If you need to change something, Docker creates a new layer on top.
+This immutability allows Docker to efficiently reuse layers across different images.
+Layer Caching:
+
+Docker caches layers after they are created, so if you build an image and then make changes, Docker will only rebuild the layers that have changed. This speeds up the build process.
+For example, if you change only the last command in your Dockerfile, Docker will reuse all the previous layers that haven’t changed.
+Visual Example
+Let’s consider a simple Dockerfile:
+
+dockerfile
+
+# Use an official base image
+FROM node:14          # Layer 1
+
+# Set the working directory
+WORKDIR /app          # Layer 2
+
+# Copy package.json and install dependencies
+COPY package.json ./
+RUN npm install        # Layer 3
+
+# Copy the rest of the application code
+COPY . .              # Layer 4 we can remove second dot but need to tell working dir we already told so placed second dot
+
+# Expose the application port
+EXPOSE 3000           # Layer 5
+
+# Start the application
+CMD ["node", "app.js"] # Layer 6# 
+the CMD instruction in a Dockerfile specifies the command that should be run when a container is started from the image, but it does not execute at the time of building the image. Let's clarify how this works:
+The CMD instruction defines the default command that will be executed when a container is started from the built image.
+
+CMD and ENTRYPOINT are both instructions that you can define in a Dockerfile to specify the default behavior of a container when it is run. 
+CMD
+Purpose: Specifies the default command to run when the container starts. You can override this command at runtime by providing a different command.
+ENTRYPOINT
+Purpose: Defines a command that will always run when the container starts. Unlike CMD, it cannot be easily overridden at runtime. You can, however, append additional arguments to it.
+
+Combining CMD and ENTRYPOINT
+You can combine CMD and ENTRYPOINT in a Dockerfile. In this case, ENTRYPOINT sets the main command, and CMD provides default arguments for that command. Here’s an example:
+ENTRYPOINT ["python", "app.py"]
+CMD ["--default-arg"]
+
+
+Layer 1: The base image (node:14) is downloaded and used as the first layer.
+Layer 2: The working directory is set; this creates a new layer.
+Layer 3: The package.json file is copied and dependencies are installed, creating another layer.
+Layer 4: The rest of the application code is copied, adding yet another layer.
+Layer 5: The port is exposed, which is another layer.
+Layer 6: The command to start the application is defined, creating the final layer.
+Key Benefits of Layering
+Efficiency:
+
+Since layers are reused, if you have multiple images that share the same base image, they won’t each need to store the base image separately.
+Speed:
+
+Docker can build images faster by caching layers that haven’t changed.
+Storage Optimization:
+
+Only changes to layers require new storage space; unchanged layers are shared across images.
+
+After ccreating docker file let build image by put this code in cmd
+1)docker build .: This command builds a Docker image using the Dockerfile in the current directory (denoted by .) but does not assign a specific tag to the image. The image will be given a default name, often an automatically generated identifier.
+
+docker build -t welcome-app:01 .: This command also builds a Docker image from the Dockerfile in the current directory, but it tags the image with the name welcome-app. The -t option allows you to give your image a specific name (and optionally a tag, like welcome-app:latest).
+Repository Name: The base name (like welcome-app) identifies the image. You can think of it as the "project" or "application" name.
+
+Tags: Tags (like 01, 02, latest, etc.) are used to denote different versions or variations of the same image. This allows you to have multiple versions of welcome-app in your Docker environment.
+
+2)docker image ls  
+The docker image ls command lists all Docker images available on your local machine. When you run this command, you'll see a table with the following columns:
+
+REPOSITORY: The name of the image repository.
+TAG: The tag associated with the image (often used to denote versions).
+IMAGE ID: A unique identifier for the image.
+CREATED: The date and time when the image was created.
+SIZE: The size of the image.
+
+
+to delete the images we do docker rmi welcome-app:02
+
+3)docker run 2fo2e423432
+The command docker run 2fo2e423432 attempts to start a container from the Docker image with the ID 2fo2e423432.
+
+	1. docker run -it 2fo2e423432
+	Flags:
+
+	-i: This flag stands for "interactive," allowing you 	to interact with the container’s standard input.
+	-t: This flag allocates a pseudo-TTY (terminal), 	providing you with a terminal interface.
+	Behavior:
+
+	This command runs the container interactively. You 	can execute commands inside the container as if you 	were using a terminal.
+	Useful for debugging, development, or running 	applications that require user input.
+	Use Cases:
+
+	When you need to troubleshoot or explore the 	container environment.
+	For interactive applications (like a shell) where you 	want to interact directly with the container.
+	2. docker run -d 2fo2e423432
+	Flags:
+	
+	-d: This flag stands for "detached," which means the 	container runs in the background.
+	Behavior:
+
+	This command starts the container in detached mode, 	allowing it to run independently of your terminal 	session.
+	You won’t see the container’s output directly in your 	terminal, but you can manage it using other Docker 	commands.
+	Use Cases:
+
+	For running long-running services or applications 	(like web servers) that don’t require direct user 	interaction.
+	When you want to start a service and then continue 	using your terminal for other tasks.
+	Key Differences
+	Interaction:
+
+	-it allows you to interact with the container, 	while -d does not.
+	Output:
+
+	With -it, you see the output in your terminal. With 	-d, the output goes to the background, and you can 	view it later using docker logs [container_id].
+	Use Case:
+
+	Use -it for interactive applications or debugging.
+	Use -d for background services or applications that 	run continuously without user intervention.
+
+now when we run the image the applicaton we cannot access it using browser because we are accessing it using window browser and it is running in the container so we need to do  
+Port Mapping: When you run the container, you need to map the container’s port to a port on your host machine. This is done using the -p flag with the docker run command. The syntax is:
+docker run -p [host_port]:[container_port] your_image
+For example, if your application runs on port 80 in the container and you want to access it through port 8080 on your host:docker run -p 8080:80 your_image.
+
+The docker ps command is used to list all running Docker containers on your system. 
+
+now if we run container like this then we cant use shell here so we run in background by detached mode.
+we can run multiple containers just changing host machine ports.
+
+we can give docker container name also by docker run id --name "mywebapp" -p 3001:3000 e45fga
+
+The docker ps -a command lists all Docker containers on your system, including both running and stopped containers. This is useful for viewing the complete history of containers you've created, not just the currently active ones.
+
+To remove a Docker container, you can use the docker rm command followed by the container ID or name.
+
+Use docker container prune to remove all stopped containers at once.
+
+now if we want we can run container and it will be deleted when we stop the container automatically
+docker run -d --rm -p 8080:80 your_image
+
+
+NOW WE LEARN about if we make changes in the our project  
+Make changes to your project files.
+(Optional) Update your Dockerfile.
+and create a docker image using different version:
+docker build -t welcome-app:02 .
+so by this we can run multiple containers with different settings in code as 01 will contain previous settings and 02 will contain new settings.
+
+NOW WE CAN PUSH THE IMAGES WE CREATED ON THE DOCKER HUB FOR THIS:
+docker login
+now copy command from docker hub after creating repo:
+docker push ....(this may sometimes give error as not find image for this rename the image according to the repo name by: docker tag oldname newname)
+
+
+DOCKER VOLUMES:
+
+1. Persistent Data Storage
+Data Persistence: Volumes allow data to persist beyond the lifecycle of a container. If a container is removed or recreated, the data stored in a volume remains intact. This is crucial for applications like databases, where you need to retain data even if the application is updated or restarted.
+
+2. Data Sharing Between Containers
+Shared Data: Volumes can be shared between multiple containers, making it easy for them to access the same data. This is useful for applications that require collaboration, like microservices that need to share configuration files or databases.
+
+TO CREATE VOLUME:
+docker run -it --rm -v myvolume:/myapp/ c34skljf454
+
+myvolume is name of volume /myapp/ is working directory defined in the docker file
+
+Docker volumes and their data do not get pushed to Docker Hub when you push an image. 
+docker volume --help
+
+Docker Bind Mounts:Docker bind mounts are a way to link a directory or file on the host filesystem directly to a container. This allows you to share files between your host and the container, providing a flexible way to manage data. 
+when program depends on external data file for ex=>txt file with server names.
+Pros:
+Real-Time Changes: Changes made on the host are reflected immediately in the container, which is great for development.
+To use a bind mount when running a container, you can use the -v or --mount flag. Here’s the basic syntax:
+docker run -v /host/path:/container/path your_image
+put absolute path at hostpath and directory path at container path 
+by this we are not creating any voolumne but binding or connecting a file or mount the file placed on host to the container.
+
+
+WHAT IS .dockerignore
+The .dockerignore file is used to specify which files and directories should be ignored when building a Docker image. This can help reduce the size of the build context sent to the Docker daemon, improving build performance and keeping sensitive or unnecessary files out of the image.

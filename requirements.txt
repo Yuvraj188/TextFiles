@@ -1,0 +1,16 @@
+joblib
+streamlit-lottie
+numpy
+Pillow
+requests
+streamlit
+streamlit_lottie
+scikit-learn
+scipy
+seaborn
+pandas
+pickleshare
+matplotlib
+matplotlib-inline
+sklearn
+https://infyspringboard.onwingspan.com/web/en/app/social/blogs_v2/6bc41240-c400-11ee-8ad9-71ae21ce5875

@@ -1,0 +1,54 @@
+Database=>organised collection of data a method to manipulate and access the data.
+default user name of the PostgreSQL is postgres
+\list or \l=>used to check all the databases.
+\! cls=>to clear the screen
+create database test;
+\c test;=> to connect to other database named test
+
+Difference bw database schema and tables:
+database:A database is a collection of related data organized in a way that allows for easy retrieval, management, and manipulation. It serves as a container for schemas and other objects like tables, indexes, and views.
+Example:
+
+Consider a database named company_db. This database might contain information related to employees, departments, and projects.
+
+2. Schema
+Definition:
+
+A schema is a namespace within a database that contains database objects such as tables, views, indexes, and functions. Schemas help to organize and group these objects logically within a database. Each database can have multiple schemas, and objects within a schema are referred to by a combination of the schema name and the object name.
+Example:
+
+Within the company_db database, you might have a schema named hr that contains tables related to human resources, and another schema named sales for sales-related data.
+
+3. Table
+Definition:
+
+A table is a collection of rows and columns used to store data. Each row represents a single record, and each column represents a field of the record. Tables are the fundamental building blocks where actual data is stored.
+Example:
+
+Within the hr schema of the company_db database, you might have a table named employees that stores data about employees.
+
+
+
+select datname from pg_database;//to check all the data bases
+create database <db_name>;//to create a db 
+query executed only when semi colon is executed
+\c dbname; to change the database we are using
+drop database test;//to delete the db
+
+2) to rename a database 
+Ensure no active connections to the database you want to rename.
+Connect to a different database (not the one being renamed).
+Use the ALTER DATABASE command to rename the database.
+ALTER DATABASE test_db RENAME TO new_test_db;
+
+3) create a table 
+create table person(id int,name varchar(100),city varchar(50));
+
+\d person;  //to describe the table person
+
+4)insert data 
+ insert into person values(1,'uv','jaipur');
+5)modify 
+update person set city='london' where id=4;
+6)delete data
+delete from person where id=4;
