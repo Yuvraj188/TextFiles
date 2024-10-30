@@ -237,6 +237,8 @@ docker volume --help
 
 Docker Bind Mounts:Docker bind mounts are a way to link a directory or file on the host filesystem directly to a container. This allows you to share files between your host and the container, providing a flexible way to manage data. 
 when program depends on external data file for ex=>txt file with server names.
+
+Yes, with a bind mount, the specified file or directory from the host is visible and accessible within the container at the specified path. 
 Pros:
 Real-Time Changes: Changes made on the host are reflected immediately in the container, which is great for development.
 To use a bind mount when running a container, you can use the -v or --mount flag. Here’s the basic syntax:
@@ -320,19 +322,25 @@ services:
   mysqldb:
     image:'mysql'
     environment:
-    -MYSQL_ROOT_PASSWORD="root"
-     contianer_name:"mysqldb"
+    -MYSQL_ROOT_PASSWORD=root
+     contianer_name:mysqldb
 
   app:
     build: .
     depends_on:
       - db
+    stdin_open:true
+    tty:true
   db:
     image: postgres:latest
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
- 
+
+stdin_open: true - This option keeps the standard input (stdin) open, which is useful for cases where you want to interact with the container even after it starts. For instance, if you need to provide input to a running process inside the container.
+
+tty: true - This option allocates a pseudo-TTY, or terminal, for the container. It’s often used together with stdin_open: true to allow for an interactive session within the container, which is helpful for debugging, running a shell interactively, or any tasks requiring a console interface.
+
     
 Services: web, app, and db represent individual containers. Each one has its own configurations.
 Networks and Volumes: You can define these for data persistence and communication between containers.
@@ -342,5 +350,54 @@ Run
 docker-compose up: Starts all services defined in the docker-compose.yml file. Adding the -d flag (e.g., docker-compose up -d) runs containers in the background.
 docker-compose down: Stops and removes containers, networks, and volumes created by docker-compose up.
 
+dockercompose cannot replace docker files both have their different functions.
+build: is used in docker compose to target docker file run for container and it can use relative path so we use ./ also instead of absolute path
+
+we can run single services also one by one:
+docker-compose run -d mysqldb
 
 
+
+docker-compose with network
+important thing is docker-compose itself creates a network and put all containers on network which are mentioned in it thats why our python and MySQL are able to connect without need of any network. we can also create network for this:
+version: '3'
+services:
+  app:
+    image: myapp:latest
+    networks:
+      - mynetwork
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+
+  db:
+    image: postgres:latest
+    networks:
+      - mynetwork
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+networks:
+  mynetwork:
+    driver: bridge
+
+
+by adding networks setting in docker compose.
+
+docker-compose down -v: Removes all containers, networks, and both named and anonymous volumes associated with the Docker Compose project, fully clearing persistent data.
+docker-compose down:Created without a specified name, typically temporary,are removed automatically with docker-compose down.
+
+DOCKER COMPOSE MOUNT BIND:
+just add volumes in service like this
+volumes:  - ./server.txt:/myapp/servers.txt   //it means bound server.txt of local machine to servers.txt of container
+
+DOCKER COMOSE WITH PORT BINDING
+just add in container in services
+port: - 8080:3000   where 8080 is host port and 3000 container port
+
+
+docker compose build or pull images first time when we run but next time it reuses them but if we want to again create new image then use --build
