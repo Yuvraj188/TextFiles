@@ -250,6 +250,57 @@ int main() {
 
 You can solve the ambiguity by qualifying the data member with the base class name using the scope resolution operator (BaseClass1::value and BaseClass2::value).
 
+NOW DIAMOND PROBLEM IN C++:
+        A
+       / \
+      B   C
+       \ /
+        D
+THIS IS RESOLVED BY VIRTUAL INHERITANCE:
+#include <iostream>
+using namespace std;
+
+// Base class A
+class A {
+public:
+    void foo() {
+        cout << "A's foo()" << endl;
+    }
+};
+
+// Class B inherits virtually from A
+class B : virtual public A {
+public:
+    void foo() {
+        cout << "B's foo()" << endl;
+    }
+};
+
+// Class C inherits virtually from A
+class C : virtual public A {
+public:
+    void foo() {
+        cout << "C's foo()" << endl;
+    }
+};
+
+// Class D inherits from B and C
+class D : public B, public C {
+public:
+    // D can now call A's foo()
+    void callFoo() {
+        A::foo();  // Explicitly calling A's foo
+    }
+};
+
+int main() {
+    D d;
+    d.callFoo();  // Output: A's foo()
+
+    return 0;
+}
+Virtual Inheritance: When B and C inherit from A, the virtual keyword ensures that only one instance of A is created. Without virtual inheritance, each of B and C would have its own copy of A, leading to the diamond problem.
+
 
 Polymorphism:many forms(example us)
 compile time(static) and run time(dynamic) polymorphism

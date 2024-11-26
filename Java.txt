@@ -1,0 +1,398 @@
+Java is a class-based,object-oriented programming language.Java is a static programming language.int x
+Java is both compiled and interpreted language, which is first compiled and then interpreted into a byte code.
+Key Features of Java
+1. Platform Independent(Every Operating System has a different JVM but the output they produce after the execution of bytecode is the same across all the operating systems. This is why Java is known as a platform-independent language.)
+2. Object-Oriented Programming
+4. Robustness-Java language is robust which means reliable. 
+7. Multithreading -Java supports multithreading, enabling the concurrent execution of multiple parts of a program. 
+High Performance-Java architecture is defined in such a way that it reduces overhead during the runtime and at some times java uses Just In Time (JIT) compiler(compiles those methods that are called)
+
+JAVA LIFE CYCLE:
+1. Creating the Program
+2. he Java compiler (javac)[presents in jdk] converts the source code into bytecode(platform independent), which is stored in a .class file. This bytecode is platform-independent and can be executed on any machine with a JVM. 
+
+JDK=> includes everything including compiler, Java Runtime Environment (JRE), Java Debuggers, Java Docs, etc.
+JDK INCLUDES JRE(JAVA RUNTIME ENVIRONMENT)
+
+In Java, programmers can’t delete the objects. To delete or recollect that memory JVM has a program called Garbage Collector. 
+
+JDK contains:
+
+Java Runtime Environment (JRE),
+An interpreter/loader (Java),
+A compiler (javac),
+An archiver (jar) and many more.(The jar file is nothing but a full pack of Java classes. )
+
+| Access Modifier | Within Class | Within Package | Outside Package by Subclass Only | Outside Package |
+|-----------------|--------------|----------------|----------------------------------|-----------------|
+| **Private**     | Yes          | No             | No                               | No              |
+| **Default**     | Yes          | Yes            | No                               | No              |
+| **Protected**   | Yes          | Yes            | Yes                              | No              |
+| **Public**      | Yes          | Yes            | Yes                              | Yes             |
+
+
+
+public static void main(String[] args)
+Explanation of the above syntax
+ public  : So that  JVM  can execute the method from anywhere. 
+ static  : The main method is to be called without an object. The modifiers are public and static can be written in either order. 
+ void  : The main method doesn’t return anything. 
+ main()  : Name configured in the JVM. The main method must be inside the class definition. The compiler executes the codes starting always from the main function. 
+ String[]  : The main method accepts a single argument, i.e., an array of elements of type String. 
+
+
+Primitive Data Type: such as boolean, char, int, short, byte, long, float, and double. The Boolean with uppercase B is a wrapper class for the primitive data type boolean in Java.
+Non-Primitive Data Type or Object Data type: such as String, Array, etc.
+
+
+
+| Type    | Description               | Default | Size     | Example Literals                              | Range of Values                                  |
+|---------|---------------------------|---------|----------|------------------------------------------------|--------------------------------------------------|
+| boolean | true or false             | false   | 8 bits   | true, false                                   | true, false                                      |
+| byte    | twos-complement integer   | 0       | 8 bits   | -128, 127                                     | -128 to 127                                      |
+| char    | Unicode character         | \u0000  | 16 bits  | 'a', '\u0041', '\101', '\\', '\n', 'β'         | 0 to 65535 (Unicode)                            |
+| short   | twos-complement integer   | 0       | 16 bits  | -32,768, 32,767                               | -32,768 to 32,767                                |
+| int     | twos-complement integer   | 0       | 32 bits  | -2, -1, 0, 1, 2                               | -2,147,483,648 to 2,147,483,647                  |
+| long    | twos-complement integer   | 0L      | 64 bits  | -2L, -1L, 0L, 1L, 2L                          | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 |
+| float   | IEEE 754 floating point  | 0.0     | 32 bits  | 1.23e100f, -1.23e-100f, 3.14F                 | up to 7 decimal digits                          |
+| double  | IEEE 754 floating point  | 0.0     | 64 bits  | 1.23456e300d, -123456e-300d, 1e1d             | up to 16 decimal digits                         |
+
+primitive data type is stored, it is the stack that the values will be assigned.copies made if one change no effect on another.
+In Object data type although two copies will be created they both will point to the same variable in the heap, hence changes made to any variable will reflect the change in both the variables. 
+
+
+Ternary Operator:
+condition ? if true : if false
+
+
+
+ int x = 5, y = 8;
+ System.out.println("Concatenation (x+y)= "+x + y); =>58
+ System.out.println(x + y);                         =>13
+
+
+Types of Java Variables:
+1)Local Variables=>A variable defined within a block or method or constructor is called a local variable. 
+
+The Local variable is created at the time of declaration and destroyed after exiting from the block or when the call returns from the function.
+
+2)Instance Variables=>Instance variables are non-static variables and are declared in a class outside of any method, constructor, or block. 
+
+As instance variables are declared in a class, these variables are created when an object of the class is created and destroyed when the object is destroyed.
+Unlike local variables, we may use access specifiers for instance variables. If we do not specify any access specifier, then the default access specifier will be used.
+Initialization of an instance variable is not mandatory.
+
+3)Static Variables=>Static variables are also known as class variables.These variables are declared similarly to instance., we can only have one copy of a static variable per class, irrespective of how many objects we create.
+    public static String geek = "Shubham Jain";
+
+4) Final Variables
+When final is used with a variable, it means that the variable’s value cannot be changed once it is initialized. The variable becomes constant after initialization, and attempting to assign a new value to it will result in a compile-time error.
+
+Wrapper classes allow primitive data types to be used as objects.
+They convert primitive data types into objects. Objects are needed if we wish to modify the arguments passed into a method (because primitive types are passed by value).
+
+
+Taking Input in Java:
+import java.util.Scanner;  // Import the Scanner class
+
+Scanner scanner = new Scanner(System.in);  // Create a Scanner object
+
+int num = scanner.nextInt();  // Read an integer
+String text = scanner.nextLine();  // Read a string (use nextLine() after nextInt() to consume the newline)
+
+double decimal = scanner.nextDouble();  // Read a double
+
+scanner.close();  // Close the scanner
+
+
+
+Data Types:
+String str ="example";//placed in string pool
+String demoString = new String (“GeeksforGeeks”);//placed outside of string pool in heap 
+
+s.length(); // Returns the number of characters in the string.
+s.charAt(3); // Returns the character at the specified index.
+s.substring(3); // Returns substring from the specified index to the end.
+s.substring(2, 5); // Returns substring from beginIndex to endIndex - 1.
+s1.concat(s2); // Concatenates s2 to the end of s1.
+s4.indexOf("Share"); // Returns the index of the first occurrence of "Share".
+s4.indexOf('a', 3); // Returns the index of 'a' starting from index 3.
+"Geeks".equals("geeks"); // Compares two strings for equality (case-sensitive).
+"Geeks".equalsIgnoreCase("gEeks"); // Compares two strings ignoring case.
+s1.compareTo(s2); // Compares two strings lexicographically.
+w1.toLowerCase(); // Converts all characters to lowercase.
+w2.toUpperCase(); // Converts all characters to uppercase.
+w4.trim(); // Removes leading and trailing whitespace.
+str2.replace('f', 'g'); // Replaces all occurrences of 'f' with 'g'.
+
+
+A Class is a user-defined blueprint or prototype from which objects are created. It represents the set of properties or methods that are common to all objects of one type.
+
+access_modifier class <class_name>
+{  
+    data member;  
+    method;  
+    constructor;
+    nested class;
+    interface;
+}
+
+An Object is a basic unit of Object-Oriented Programming that represents real-life entities.it contains state,behaviour(methods). Note:  When we create an object which is a non primitive data type, it’s always allocated on the heap memory. 
+
+MyClass obj = new MyClass();
+
+<access_modifier> <return_type> <method_name>( list_of_parameters)
+{
+    //body
+}
+
+Data Abstraction is the property by virtue of which only the essential details are displayed to the user. The trivial or non-essential units are not displayed to the user. Ex: A car is viewed as a car rather than its individual components.
+Note: In Java, abstraction is achieved by interfaces and abstract classes. We can achieve 100% abstraction using interfaces.
+Java Abstract classes and Java Abstract methods
+An abstract class is a class that is declared with an abstract keyword.
+An abstract method is a method that is declared without implementation.
+An abstract class may or may not have all abstract methods. Some of them can be concrete methods
+A abstract method must always be redefined in the subclass, thus making overriding compulsory or making the subclass itself abstract.
+Any class that contains one or more abstract methods must also be declared with an abstract keyword.
+There can be no object of an abstract class. That is, an abstract class can not be directly instantiated with the new operator.
+An abstract class can have parameterized constructors and the default constructor is always present in an abstract class.
+
+INTERFACE:
+interface could only have abstract methods (methods without a body) and public, static, and final variables by default. It is used to achieve abstraction and multiple inheritances in Java.
+ all the methods in an interface are declared with an empty body and are public and all fields are public, static, and final by default.
+So, the question arises why use interfaces when we have abstract classes?
+// A simple interface
+interface Player
+{
+    final int id = 10;//NO NEED TO WRITE FINAL IT IS BY DEFAULT STATIC,PUBLIC,FINAL
+    int move();
+}
+A class can extend another class, and similarly, an interface can extend another interface. However, only a class can implement an interface, and the reverse (an interface implementing a class) is not allowed.
+
+The reason is, abstract classes may contain non-final variables, whereas variables in the interface are final, public, and static.
+ interface variables (also known as constants) can be accessed by the name of the interface rather than the name of the implementing class.
+
+
+
+ENCAPSULATION
+Encapsulation in Java is a fundamental concept in object-oriented programming (OOP) that refers to the bundling of data and methods that operate on that data within a single unit, which is called a class in Java.
+It is defined as the wrapping up of data under a single unit.encapsulation is that it is a protective shield that prevents the data from being accessed by the code outside this shield. 
+
+Inheritance is also known as “is-a” relationship.the mechanism in Java by which one class is allowed to inherit the features (fields and methods) of another class.
+In Java, a class cannot directly access the grandparent’s members.
+PI1.super.show() USE THIS IN CHILD CLASS TO DO BY PARENT CLASS NAME
+
+4. Multiple Inheritance (Through Interfaces)
+In Multiple inheritances, one class can have more than one superclass and inherit features from all parent classes. Please note that Java does not support multiple inheritances with classes. In Java, we can achieve multiple inheritances only through Interfaces. In the image below, Class C is derived from interfaces A and B.
+
+In Java, you can use parent class methods in the child class in several ways. If a method is inherited (not overridden) from the parent class, it is directly available in the child class. If a method is overridden in the child class, you can still access the parent class version of the method using the super keyword.
+Yes, in Java, a class can both extend a superclass and implement interfaces at the same time. 
+
+Why Multiple Inheritance is not supported through a class in Java, but it can be possible through the interface?
+
+Multiple Inheritance is not supported by class because of ambiguity. In the case of interface, there is no ambiguity because the implementation of the method(s) is provided by the implementing class up to Java 7. 
+
+4. Polymorphism
+It refers to the ability of object-oriented programming languages to differentiate between entities with the same name efficiently. This is done by Java with the help of the signature and declaration of these entities. The ability to appear in many forms is called polymorphism.
+achieved by overriding and overloading 
+But Java doesn’t support the Operator Overloading.
+
+Overloading=>
+Rules for Method Overloading:
+Method Name: The methods must have the same name.
+Different Parameters: The methods must differ in the number of parameters, types of parameters, or both.
+Return Type: The return type can be different, but it alone does not qualify as overloading. The difference must be in the parameters.
+
+Overidding:
+It is also known as Dynamic Method Dispatch. It is a process in which a function call to the overridden method is resolved at Runtime. This type of polymorphism is achieved by Method Overriding.
+public static void main(String[] args) {
+        Animal myAnimal = new Animal(); // Reference of type Animal
+        Animal myDog = new Dog();        // Reference of type Animal, but object is of type Dog
+
+        myAnimal.sound();  // Output: Animal makes a sound
+        myDog.sound();     // Output: Dog barks (dynamic dispatch happens here)
+
+
+
+Why Java is not a purely Object-Oriented Language? due to primitive data types it has.
+
+Constructors:
+Sometimes there is a need of initializing an object in different ways. This can be done using constructor overloading.
+default,parameterized,copy constructor
+Every time an object is created using the new() keyword, at least one constructor is called.
+Using this() to invoke current class constructor
+ Test()
+    {
+        this(10, 20);//call parameterized constructor
+        System.out.println(
+            "Inside  default constructor \n");
+    }
+Access Modifier   | Can Be Accessed By
+------------------ | ---------------------------------------------------
+public            | Anywhere (outside class, package, subclass)
+private           | Only within the class
+protected         | Within the class, subclass, and same package
+(no modifier)     | Within the same package (package-private)
+Note: In Java, constructor of the base class with no argument gets automatically called in the derived class constructor. 
+super() keyword+>
+Key Points to Remember:
+Calling Parent Class Constructor: Use super() to call a parent class's constructor from a child class.
+Accessing Parent Class Members: Use super.fieldName or super.methodName() to access the parent class's fields and methods, especially when they are overridden or shadowed in the child class.
+Invoking Overridden Methods: Use super.methodName() to invoke the parent class's version of an overridden method.
+
+
+What is a Singleton class?
+
+As the name implies, a class is said to be singleton if it limits the number of objects of that class to one.
+ITS CONSTRUCTOR IS PRIVATE
+We can’t have more than a single object for such classes.
+
+
+Exception handling in java
+two types 1)built in 
+Checked Exceptions: Checked exceptions are called compile-time exceptions because these exceptions are checked at compile-time by the compiler.
+ 
+Unchecked Exceptions: The unchecked exceptions are just opposite to the checked exceptions. The compiler will not check these exceptions at compile time.
+          2) user defined
+
+try: Wraps the code that might throw an exception.
+catch: Handles the exception if it occurs in the try block.
+finally: Executes code that runs after the try-catch block, regardless of whether an exception occurred or not. This is used for cleanup operations (like closing files or database connections).
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Code that may cause an exception
+            int result = 10 / 0;  // Division by zero (ArithmeticException)
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            // Handling the exception
+            System.out.println("Error: Cannot divide by zero.");
+        } finally {
+            // Code that will always run
+            System.out.println("This will always be printed.");
+        }
+    }
+}
+
+
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Manually throwing an exception
+            throw new Exception("This is a custom exception!");
+        } catch (Exception e) {
+            System.out.println("Caught exception: " + e.getMessage());
+        }
+    }
+}
+throw: Used to manually throw an exception.
+throws: Specifies that a method may throw an exception.
+ere’s a brief summary of how the JVM handles an exception:
+
+Exception is Thrown: An exception object is created and thrown when an error occurs during execution.
+Exception Propagation: The JVM searches the call stack, from the current method to the previous ones, to find a matching exception handler (catch block).
+Exception Handler: If a handler is found, the exception is passed to it; otherwise, it reaches the default handler, which prints the exception details and terminates the program.
+Finally Block: If present, the finally block is executed for cleanup, regardless of whether an exception was caught.
+
+
+Multithreading is a Java feature that allows concurrent execution of two or more parts of a program for maximum utilization of CPU. Each part of such program is called a thread. So, threads are light-weight processes within a process.
+Yes, in Java (and most programming languages), threads share memory.
+Threads can be created by using two mechanisms : 
+
+Extending the Thread class 
+Implementing the Runnable Interface
+
+1)
+This class overrides the run() method available in the Thread class. A thread begins its life inside run() method. We create an object of our new class and call start() method to start the execution of a thread. Start() invokes the run() method on the Thread object.
+
+// Java code for thread creation by extending
+// the Thread class
+class MultithreadingDemo extends Thread {
+	public void run()
+	{
+		try {
+			// Displaying the thread that is running
+			System.out.println(
+				"Thread " + Thread.currentThread().getId()
+				+ " is running");
+		}
+		catch (Exception e) {
+			// Throwing an exception
+			System.out.println("Exception is caught");
+		}
+	}
+}
+
+// Main Class
+public class Multithread {
+	public static void main(String[] args)
+	{
+		int n = 8; // Number of threads
+		for (int i = 0; i < n; i++) {
+			MultithreadingDemo object
+				= new MultithreadingDemo();
+			object.start();
+		}
+	}
+}
+
+
+
+2)
+Thread creation by implementing the Runnable Interface
+We create a new class which implements java.lang.Runnable interface and override run() method. Then we instantiate a Thread object and call start() method on this object. 
+
+// Java code for thread creation by implementing
+// the Runnable Interface
+class MultithreadingDemo implements Runnable {
+	public void run()
+	{
+		try {
+			// Displaying the thread that is running
+			System.out.println(
+				"Thread " + Thread.currentThread().getId()
+				+ " is running");
+		}
+		catch (Exception e) {
+			// Throwing an exception
+			System.out.println("Exception is caught");
+		}
+	}
+}
+
+// Main Class
+class Multithread {
+	public static void main(String[] args)
+	{
+		int n = 8; // Number of threads
+		for (int i = 0; i < n; i++) {
+			Thread object
+				= new Thread(new MultithreadingDemo());
+			object.start();
+		}
+	}
+}
+
+Thread Class vs Runnable Interface 
+
+If we extend the Thread class, our class cannot extend any other class because Java doesn’t support multiple inheritance. But, if we implement the Runnable interface, our class can still extend other base classes.
+We can achieve basic functionality of a thread by extending Thread class because it provides some inbuilt methods like yield(), interrupt() etc. that are not available in Runnable interface.
+
+
+Thread Lifecycle Summary:
+New State: The thread is created but not yet started.
+Runnable State: The thread is ready to run but is waiting for CPU time.
+Blocked State: The thread is waiting for a lock or resource.
+Waiting State: The thread is waiting indefinitely for a specific condition (via wait()).
+Timed Waiting State: The thread is waiting for a specific period of time (via sleep() or join()).
+Terminated State: The thread has finished executing or has been stopped.
+
+a lock (also known as a mutex) is a mechanism that ensures only one thread can access a shared resource or critical section of code at a time. Locks are used to prevent race conditions by allowing only one thread to work with a resource while other threads wait for the lock to be released.
+
+public final void setPriority(int newPriority): java.lang.Thread.setPriority() method changes the priority of thread to the value newPriority. This method throws IllegalArgumentException if value of parameter newPriority goes beyond minimum(1) and maximum(10) limit.
+
+The purpose of start() is to create a separate call stack for the thread. A separate call stack is created by it, and then run() is called by JVM.
+
+When a program calls the start() method, a new thread is created and then the run() method is executed. But if we directly call the run() method then no new thread will be created and run() method will be executed as a normal method call on the current calling thread itself and no multi-threading will take place. Let us understand it with an example: 
+

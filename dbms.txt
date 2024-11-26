@@ -1,0 +1,79 @@
+title
++---------------+----------+------+-----+---------+-------+
+| Field         | Type     | Null | Key | Default | Extra |
++---------------+----------+------+-----+---------+-------+
+| WORKER_REF_ID | int(11)  | YES  | MUL | NULL    |       |
+| WORKER_TITLE  | char(25) | YES  |     | NULL    |       |
+| AFFECTED_FROM | datetime | YES  |     | NULL    |       |
++---------------+----------+------+-----+---------+-------+
+
+
+worker
++--------------+----------+------+-----+---------+----------------+
+| Field        | Type     | Null | Key | Default | Extra          |
++--------------+----------+------+-----+---------+----------------+
+| WORKER_ID    | int(11)  | NO   | PRI | NULL    | auto_increment |
+| FIRST_NAME   | char(25) | YES  |     | NULL    |                |
+| LAST_NAME    | char(25) | YES  |     | NULL    |                |
+| SALARY       | int(15)  | YES  |     | NULL    |                |
+| JOINING_DATE | datetime | YES  |     | NULL    |                |
+| DEPARTMENT   | char(25) | YES  |     | NULL    |                |
++--------------+----------+------+-----+---------+----------------+
+
+bonus
++---------------+----------+------+-----+---------+-------+
+| Field         | Type     | Null | Key | Default | Extra |
++---------------+----------+------+-----+---------+-------+
+| WORKER_REF_ID | int(11)  | YES  | MUL | NULL    |       |
+| BONUS_AMOUNT  | int(10)  | YES  |     | NULL    |       |
+| BONUS_DATE    | datetime | YES  |     | NULL    |       |
++---------------+----------+------+-----+---------+-------+
+
+
+35=> select w1.* from worker as w1 inner join worker as w2 on w1.salary=w2.salary where w1.worker_id!=w2.
+worker_id;
+select w1.* from worker w1,worker w2 where w1.salary=w2.salary and w1.worker_id<>w2.worker_id; 
+
+38==SELECT w.*
+FROM worker w
+LEFT JOIN bonus b ON w.worker_id = b.worker_ref_id
+WHERE b.worker_ref_id IS NULL;
+
+45==SELECT FIRST_NAME,SALARY,W.DEPARTMENT FROM WORKER AS W INNER JOIN (SELECT MAX(SALARY) AS SALARYS,DEP
+ARTMENT FROM WORKER GROUP BY DEPARTMENT) AS T ON W.SALARY=T.SALARYS AND W.DEPARTMENT=T.DEPARTMENT;
+
+How the Query Works:
+Distinct Salaries: The query first identifies all distinct (unique) salaries from the WORKER table.
+
+Subquery for Ranking: For each salary, it counts how many distinct salaries are greater than or equal to it in the entire table (this gives the "rank" of the salary).
+
+Top 3 Salaries: The WHERE 3 >= (...) condition ensures that only those salaries are selected where the number of distinct salaries greater than or equal to it is 3 or fewer. So, the top 3 distinct salaries are selected.
+
+Sorting: Finally, it orders the selected salaries in descending order, meaning the highest salary comes first.
+
+First, the query looks at each salary and calculates how many distinct salaries are greater than or equal to it.
+
+For salary 50000, there are 5 distinct salaries greater than or equal to it: 150000, 120000, 90000, 70000, 50000.
+For salary 70000, there are 4 distinct salaries greater than or equal to it: 150000, 120000, 90000, 70000.
+For salary 90000, there are 3 distinct salaries greater than or equal to it: 150000, 120000, 90000.
+For salary 120000, there are 2 distinct salaries greater than or equal to it: 150000, 120000.
+For salary 150000, there is 1 distinct salary greater than or equal to it: 150000.
+Next, it selects salaries where the count of distinct salaries greater than or equal to them is 3 or fewer.
+
+So, we keep the salaries 150000, 120000, and 90000 because they meet this condition:
+
+For 150000, there are only 1 salary greater than or equal to it.
+For 120000, there are 2 salaries greater than or equal to it.
+For 90000, there are 3 salaries greater than or equal to it.
+
+
+
+
+
+
+
+
+
+
+
+

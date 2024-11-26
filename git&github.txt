@@ -1,0 +1,152 @@
+git log git status 
+
+Git is a distributed version control system(VCS).Git is a tool that helps multiple people work on the same code project or documents by tracking and managing changes to the files.
+Application is not completed there need to be bug fix,new updates ,security updates etc which go by time.
+VCS=>Every time you make a change whether its adding a sentence to a document or altering a line of code the vcs records and saves the outcome.and can jump to previous version easily.
+
+git config --global user.name "Paul Philips"  =>After running this command, every commit you make will have "Paul Philips" as the author's name unless overridden by a local configuration or another command. 
+git config --global user.name "Paul Philips"
+
+git config --list=>display all the Git configuration settings that are currently set for the environment, including system-wide, global, and repository-specific configurations. This command lists settings like username, email, editor, and other custom configurations for Git.
+
+Running git init in your terminal initializes a new, empty Git repository in the current directory. This command sets up the necessary Git structures to track changes and creates a hidden .git folder where Git stores information about the repository, including commit history, configuration, and more.
+
+The git status command is used to display the state of the working directory and the staging area. It lets you know which changes have been staged, which haven’t, and which files aren’t being tracked by Git.
+
+Both git add . and git add * are used to stage changes in your working directory, but they behave slightly differently.
+
+1. git add . (dot):
+What it does: Adds all changes (new, modified, deleted files) in the current directory and its subdirectories to the staging area.
+
+2. git add *:What it does: Adds all non-hidden files (new and modified) in the current directory to the staging area.
+Key point: It doesn't include hidden files or changes in subdirectories unless you explicitly specify them.
+
+The staging area (also known as the index) in Git is a space where you can prepare changes before committing them to the repository. Think of it as a "holding area" for changes you want to include in your next commit.
+
+git commit -m "first cmit"
+
+The git log command is used to view the commit history in a Git repository. It shows a list of commits, including details like the commit hash, author, date, and commit message.
+
+
+The git diff command is used in Git to show the differences between the working directory and the index (staged changes), or between two commits, branches, or other Git objects.
+gives difference bw previous and updated file what changes in code.
+
+git commit -m "commmited"
+git commit: This creates a new commit from the changes staged in the index (the staging area).
+
+-m "": The -m flag is used to provide a commit message directly on the command line. The "" (empty quotes) indicates that no message is being provided.
+
+
+if we want older version of code then we required the commit id so write 1)git log
+2)copy the id of the commit which code we need to see
+3)git show id:fileename
+but by this method we cant read all files and not large files as this show code in cmd
+other good method
+git checkout: This is used to switch between branches or restore files in your working directory.
+1) and 2) same 
+3)git checkout id -- *(for all files we use *) or we can write name of file here
+4) to again go to latest file git checkout master -- *
+master: This specifies the branch from which you want to restore the files. In this case, it's the master branch (the main branch in many repositories, though some may use main or another name).
+
+
+1)suppose by mistake we make changes in file and saved it but now want to restore version before change then we do:
+git restore .
+we can put filename also in place of .
+2)if we make save changes by git then means put in staged area by git add *
+we can check what changes we have done by git diff --cached
+3)now to revert it from staged area we do git restore --staged .
+also give filename instead of .
+4)now run git restore .
+5) this will by we get our old file
+
+read other 2 in gitand GitHub pdf
+
+git log returns all commit history with id but what if want to filter out as there can be 1000 commits
+
+The command git log -p -2 is used in Git to display the commit history along with the differences (or "patches") introduced by the last two commits.2 is used so last 2 commits.-p: This option stands for "patch" and tells Git to show the differences (or diffs) introduced by each commit. 
+
+
+git log --stat  =>give summary about the changes with the name of file changed
+
+git log --pretty=oneline  =>give information of commit in oneline
+
+The git log -S "H1" command is used to search the commit history for changes that involve the string "H1" in the code, specifically adding or removing that string.
+
+The command git log --grep='v2' is used to search for commits in the Git repository whose commit messages contain the string "v2". It helps you filter and view only the commits that include this string in their commit messages.
+
+git log --since="2024-01-01":
+This shows commits that have been made since a specific date.
+
+git log --until="2024-01-01":
+This shows commits that were made until a specific date.
+
+git log --author="paul":
+This shows commits made by an author whose name contains "paul".
+
+git log --no-merges:
+This shows commits excluding merge commits.
+
+
+REMOTE REPOSITORY=>A REMOTE REPOSITORY REFERS TO A VERSION OF YOUR PROJECT THAT RESIDE ON A NETWORK SERVER OR A HOSTED REPO ON INTERNET
+
+The command git branch -m main is used to rename a Git branch. Specifically, it renames the current branch to main.DEFAULT IS MASTER BRANCH
+
+git push -u origin main (with -u)
+Push with upstream tracking: The -u (or --set-upstream) option sets an upstream branch for your local branch, meaning that it establishes a tracking relationship between your local branch (in this case, main) and the remote branch (origin/main).
+
+
+Requires explicit remote and branch: When you use git push without specifying an upstream, you must provide the remote repository and the branch name (if they are not already set).
+
+
+git remote -v =>tell about which remote repo is linked with the local repo
+
+git pull =>command is used to fetch and merge changes from a remote repository into your local branch. It’s a combination of two commands: git fetch (which downloads changes from the remote repository) and git merge (which integrates those changes into your current working branch).
+
+git clone url ==>git clone command is used to create a copy of an existing Git repository. This is typically used to create a local copy of a remote repository, such as one hosted on GitHub,  also all history comes with this like its previous commits etc
+
+git branch =>give all branches created and which is in use(marked by *)
+
+git branch new_branch==>The command git branch new_branch is used to create a new branch in your local Git repository. This command does not switch to the new branch; it simply creates the branch.
+
+git checkout branch_name ==>To switch to the new branch after creation, use git checkout new_branch
+
+When you switch branches in Git, only the files from the branch you switch to will be visible in your working directory. Any changes that are specific to the previous branch are no longer visible, 
+to commit in the branch we do
+git add *
+git commit -m ""
+git push origin branch_naem
+
+now to merge the branch go to main branch and then run this code  
+git merge branch_name
+
+what is merge conflict?
+suppose one branch is made other than the main branch and there is common file bw them and it is changed by both of them so when merged whose changes should be kept this is merge conflicts.
+
+git forking =>. Forking a repository allows you to experiment and make changes freely without affecting the original project. It's commonly used in open-source development when you want to contribute to a project but don't have direct access to the original repository.used by the third person,
+
+now to notify the main person about the changes made by 3rd party he can do open pull request and then create pull request, now this request will go to main person and he can comment,merge pull request or close pull request.
+
+
+A .gitignore file is used in Git to specify which files and directories should be ignored by version control. This is useful for excluding files that don’t need to be tracked, such as build files, configuration files, or sensitive information, which could clutter the repository or pose security risks.
+
+
+git clean -n
+git clean -f 
+these commands will remove the untracked files first run -n then -f
+
+
+GIT TAGS=>WE CANT REMEMBER THE ID OF THE COMMITS IN THE LOGS SO WE GIVE TAGS Git, tags are used to mark specific points in the repository's history. Tags are often used for marking releases or important milestones in a project, 
+(a way to give ccommits a name)
+
+
+git tag -a B6 -m "this is b6"
+It creates an annotated tag called B6 on the current commit (i.e., the commit you're currently checked out to). and after -m is message.
+git tag -a V1 <commit_no>  to tag old commit in case you forgot
+git tag -l                  list all tags
+git push origin <tag_name>	Push a specific tag to the remote repository
+git push origin --tags	Push all tags to the remote repository
+git checkout <tag_name>	Checkout a specific tag (detached HEAD state)
+
+
+now to see changes using the tag we do 
+git show v6   where v6 is name of the tag
