@@ -1,21 +1,306 @@
-G0h91511DfQdx16972
-https://www.guvi.in/verify-certificate?id=G0h91511DfQdx16972&course=pythonEng
-streamlit
-3913390
+print in python:
+# Using str.format() method
+name = "John"
+age = 25
+formatted_string = "Hello, {}! You are {} years old.".format(name, age)
+print(formatted_string)
+formatted_string = "Hello, {0}! You are {1} years old. {0} is your name.".format(name, age)
+print(formatted_string)
+
+#using fstring
+name = "John"
+age = 25
+formatted_string = f"Hello, {name}! You are {age} years old."
+
+formatted_string = f"Pi to two decimal places: {pi:.2f}"
+
+# taking three inputs at a time
+x, y, z = input("Enter three values: ").split()#default value for split is " "
+
+print(type(a))
 
 
 
-notebooks for datascience
-https://github.com/jakevdp/PythonDataScienceHandbook/tree/master
+print(s.upper())   # output: HELLO WORLD
 
-https://cs50.harvard.edu/sql/2023/weeks/0/
+print(s.lower())   # output: hello world
+
+print(s.strip()) 
+
+str.find(substring)
+Description: Returns the lowest index of the substring if it exists. Returns -1 if not found.
+
+str.count(substring)
+Description: Counts the number of occurrences of a substring.
+
+str.join(iterable)
+Description: Joins elements of an iterable (list, tuple) into a single string, with a specified delimiter.
+s = "-"
+print(s.join(['a', 'b', 'c']))  # Output: 'a-b-c'
+
+str.isalnum()
+Description: Returns True if all characters in the string are alphanumeric (i.e., they are either letters or digits) and the string is not empty. Otherwise, it returns False.even if space in string it will return false
+
+str.swapcase()
+
+str.replace(old, new, count)
+Description: Replaces the first count occurrences of a substring.
+
+str.startswith(prefix)
+str.endswith(prefix)
+
+str.islower()
+
+str.isalpha()
+
+sort() is in-place and only for lists, while sorted() works on any iterable and returns a new sorted list.
+sort() modifies the original list, while sorted() leaves the original iterable unchanged.
+Use reverse() when you need to reverse a list in place and do not need to keep the original order.
+Use reversed() when you need an iterator for the reversed order of any iterable and want to keep the original iterable unchanged. You can convert the iterator into a list if needed by wrapping it with list() or tuple().
+
+, a list is a built-in data structure that is used to store an ordered collection of items. Lists are mutable, meaning that their contents can be changed after the list has been created. 
+n=int(input("enter the number"))
+l=[0]*n
+print(l)#creates a n size list with all elements 0
 
 
-ythor203@ythor203.onmicrosoft.com
+original_list = [[1, 2], [3, 4]]
+#shallow copy
+shallow_copy = copy.copy(original_list)
+
+# Modify the nested list inside the shallow copy
+shallow_copy[0][0] = 10
+
+print("Original List:", original_list)  # Output: [[10, 2], [3, 4]]
+print("Shallow Copy:", shallow_copy)    # Output: [[10, 2], [3, 4]]
+
+#Deep copy
+original_list = [[1, 2], [3, 4]]
+deep_copy = copy.deepcopy(original_list)
+
+# Modify the nested list inside the deep copy
+deep_copy[0][0] = 10
+
+print("Original List:", original_list)  # Output: [[1, 2], [3, 4]]
+print("Deep Copy:", deep_copy)          # Output: [[10, 2], [3, 4]]
 
 
-https://youtube.com/playlist?list=PLPSCssPYXhWTTcpNZwYoEQWt8Wc8KO0NV&si=U5gqFIAk4I7Kn3zl
+Adding Elements into List
+We can add elements to a list using the following methods:
+
+append(): Adds an element at the end of the list.
+extend(): Adds multiple elements to the end of the list.a.extend([15, 20, 25])   [5, 10, 15, 20, 25]
+insert(0,5): Adds an element at a specific position.# Inserting 5 at index 0
+
+Deleting elements from List
+pop(index)
+Purpose:Removes an element from the list at a specific index and returns that element.if no index remove last element.
+
+remove(12): Removes the first occurrence of an element.
+del a[0]  : Deletes an element at a specified index.
+
+iterating over lists:
+for ind,val in enumerate(list):
+     print(ind,val)
+
+
+[expression for item in iterable if condition] #list comprehension
+
+a tuple is also an ordered collection of Python objects. The only difference between a tuple and a list is that tuples are immutable i.e. tuples cannot be modified after it is created.
+unpacking of tuple
+
+Tuples are immutable and hence they do not allow deletion of a part of it. The entire tuple gets deleted by the use of del() method. 
+
+list.index(element, start=0, end=len(list))#available in tuple also
+list.count(element) #if no count return 0
+
+
+In Python Data Types, a Set is an unordered collection of data types that is iterable, mutable, and has no duplicate elements. 
+
+Using add() Method=set1.add(9)
+Using update() Method=set1.update([10, 11]) this will add 10 and 11 to set
+
+
+Using remove() Method or discard() Method===>set1.remove(5)
+Discard=>If the element is not present, it does nothing (no error).	remove=>If the element is not found, it raises a KeyError.
+Using pop() Method=>it does require index in sets
+Using clear() Method=>remove all elements
+
+Note: Lists cannot be added to a set as elements because Lists are not hashable whereas Tuples can be added because tuples are immutable and hence Hashable. 
+Note: The values False and 0 are considered the same value in sets, and are treated as duplicates:
+A frozenset is a built-in data structure in Python that is very similar to a set, with one key difference: it is immutable. This means that once a frozenset is created, you cannot add or remove elements from it. However, like a set, a frozenset still ensures that its elements are unique and unordered.
 
 
 
-https://movieshd.watch/watch-tv/watch-game-of-thrones-online-39539.4846588
+A dictionary in Python is an unordered collection of data values, used to store data values like a map, unlike other Python Data Types that hold only a single value as an element, a Dictionary holds a key: value pair. 
+
+dict1 = {"a": 1, "b": 2}
+dict2 = {"b": 3, "c": 4}
+
+dict1.update(dict2)
+
+dict1.get("key")=>return none if not present
+x = thisdict.items() return dict as list with key value pairs=>The returned list is a view of the items of the dictionary, meaning that any changes done to the dictionary will be reflected in the items list.
+
+del my_dict[key]: Removes a specific key-value pair.
+my_dict.pop(key): Removes and returns the value of the specified key.
+my_dict.popitem(): Removes and returns the last inserted key-value pair (useful for LIFO order).
+my_dict.clear(): Removes all key-value pairs from the dictionary.
+
+mydict = dict(thisdict)# this will make copy of dict
+
+for x, obj in myfamily.items():# to loop in nested dictionaries
+  print(x)
+
+  for y in obj:
+    print(y + ':', obj[y])
+
+there is no do while loop in python 
+
+
+for else loop in python 
+
+
+
+In Python, a for-else loop is a combination of the for loop with an else clause. The else block is executed only if the for loop completes normally (i.e., without encountering a break statement). If the for loop is interrupted by a break, the else block is skipped.
+
+for item in iterable:
+    # loop code
+    if condition:
+        break
+else:
+    # else block code (executed if no break occurs)
+
+
+switch case 
+variable=5
+match variable:
+    case pattern1:
+        # code to execute if variable matches pattern1
+    case pattern2:
+        # code to execute if variable matches pattern2
+    case _:
+        # default case (executed if no patterns match)
+no need to use break statement only case match that will be executed
+
+
+#this will give error
+def fun(a=5,b):#non default arguments follow default arguments
+    print(a+b)
+fun(2,3)
+
+def foo(a=5,b=7):
+    print(a+b)
+fun(b=8)# this will run with a=5 and b=8 here b is called key word arguments
+
+
+
+variable-length arguments
+The *numbers parameter means that any number of positional arguments can be passed to the function. Inside the function, they are received as a tuple.
+You can then iterate through this tuple (numbers) and perform operations on each element, like summing them up.
+def num(*numbers):
+    sum = 0
+    print(type(numbers))  # This will print <class 'tuple'>
+    for i in numbers:
+        sum = sum + i
+    print(numbers[0])
+    return sum
+
+print(num(3, 4, 5, 6, 7))  # This will return 25
+
+
+
+try:
+    # Code that might raise an exception
+    num = int(input("Enter a number: "))
+except ValueError:
+    # Code to handle the exception
+    print("That's not a valid number.")
+# try: The block where you write code that might throw an error.
+# except: If an exception occurs in the try block, the code in the except block runs.
+
+
+try:
+    num = int(input("Enter a number: "))
+except ValueError:
+    print("That's not a valid number.")
+else:
+    print(f"The number you entered is {num}")
+finally:
+    print("This will always execute.")
+# else: Runs if no exceptions are raised.
+# finally: Always runs whether or not an exception was raised. It’s often used for cleanup tasks
+
+try:
+    num = int(input("Enter a number: "))
+except ValueError:
+    print("That's not a valid number.")
+else:
+    print(f"You entered {num}")
+# else: Runs if no exception was raised in the try block.
+
+try:
+    num = int(input("Enter a number: "))
+except ValueError:
+    print("That's not a valid number.")
+finally:
+    print("This will always execute.")
+# finally: Runs no matter what, typically used to release resources or perform cleanup tasks such as.it 
+#  break connecitons with db.it will run in function also after the return statement also 
+# try-except: Handles exceptions.
+# try-except-else: The else block runs if no exceptions occur.
+# try-except-finally: The finally block runs whether an exception occurs or not.
+# try-except-else-finally: Combines all, where else runs if no exception occurs, and finally always runs.
+
+
+x = -1
+
+if x < 0:
+    raise ValueError("The value of x cannot be negative!")
+
+
+The map() function in Python is used to apply a function to each item in an iterable (such as a list, tuple, or string) and return a new iterable (usually a map object, which can be converted to a list, tuple, etc.).
+
+def square(n):
+    return n * n
+
+numbers = [1, 2, 3, 4, 5]
+squared_numbers = map(square, numbers)
+
+print(list(squared_numbers))  # Output: [1, 4, 9, 16, 25]
+
+map() applies a function to each item in an iterable (or multiple iterables).
+It's often used with lambda functions for short, inline transformations.
+It returns an iterator, which can be converted to a list, tuple, etc., to see the output.
+
+strings = ["1", "2", "3"]
+numbers = map(int, strings)
+
+print(list(numbers))  # Output: [1, 2, 3]
+
+The filter() function in Python is used to filter elements from an iterable (like a list, tuple, or set) based on a condition. It applies a function (predicate) to each element and returns only those elements for which the function returns True.
+def is_even(n):
+    return n % 2 == 0
+
+numbers = [1, 2, 3, 4, 5, 6]
+even_numbers = filter(is_even, numbers)
+
+print(list(even_numbers))  # Output: [2, 4, 6]
+
+
+lambda arguments : expression
+
+A lambda function is a small anonymous function.
+
+A lambda function can take any number of arguments, but can only have one expression.
+
+x = lambda a, b : a * b
+print(x(5, 6))
+
+
+The nonlocal keyword is used to work with variables inside nested functions.
+
+The nonlocal keyword makes the variable belong to the outer function.
+
+a=12 b=12 a is b return true but a=20000 b=20000 a is b return false why
+Python caches small integers (typically between -5 and 256). This means that if you create an integer within this range, Python will reuse the same object in memory for efficiency.
