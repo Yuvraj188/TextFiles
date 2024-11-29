@@ -110,13 +110,12 @@ a tuple is also an ordered collection of Python objects. The only difference bet
 unpacking of tuple
 
 Tuples are immutable and hence they do not allow deletion of a part of it. The entire tuple gets deleted by the use of del() method. 
-
+sorted works for tuple
 list.index(element, start=0, end=len(list))#available in tuple also
 list.count(element) #if no count return 0
 
 
 In Python Data Types, a Set is an unordered collection of data types that is iterable, mutable, and has no duplicate elements. 
-
 Using add() Method=set1.add(9)
 Using update() Method=set1.update([10, 11]) this will add 10 and 11 to set
 
@@ -124,7 +123,7 @@ Using update() Method=set1.update([10, 11]) this will add 10 and 11 to set
 Using remove() Method or discard() Method===>set1.remove(5)
 Discard=>If the element is not present, it does nothing (no error).	remove=>If the element is not found, it raises a KeyError.
 Using pop() Method=>it does require index in sets
-Using clear() Method=>remove all elements
+Using clear() Method=>remove all elements 
 
 Note: Lists cannot be added to a set as elements because Lists are not hashable whereas Tuples can be added because tuples are immutable and hence Hashable. 
 Note: The values False and 0 are considered the same value in sets, and are treated as duplicates:
@@ -137,7 +136,7 @@ A dictionary in Python is an unordered collection of data values, used to store 
 dict1 = {"a": 1, "b": 2}
 dict2 = {"b": 3, "c": 4}
 
-dict1.update(dict2)
+dict1.update(dict2)#change values also 
 
 dict1.get("key")=>return none if not present
 x = thisdict.items() return dict as list with key value pairs=>The returned list is a view of the items of the dictionary, meaning that any changes done to the dictionary will be reflected in the items list.
@@ -272,6 +271,11 @@ print(list(squared_numbers))  # Output: [1, 4, 9, 16, 25]
 map() applies a function to each item in an iterable (or multiple iterables).
 It's often used with lambda functions for short, inline transformations.
 It returns an iterator, which can be converted to a list, tuple, etc., to see the output.
+result = map(add, zip_longest(numbers1, numbers2)) #zip longest is num1 and num2 has different lengths
+
+
+
+
 
 strings = ["1", "2", "3"]
 numbers = map(int, strings)
@@ -301,6 +305,35 @@ print(x(5, 6))
 The nonlocal keyword is used to work with variables inside nested functions.
 
 The nonlocal keyword makes the variable belong to the outer function.
+def outer_function():
+    count = 0  # This is a variable in the outer function
+
+    def inner_function():
+        nonlocal count  # Refers to 'count' in the outer function
+        count += 1
+        print("Count inside inner_function:", count)
+
+    inner_function()
+    print("Count inside outer_function:", count)
+
+outer_function()
 
 a=12 b=12 a is b return true but a=20000 b=20000 a is b return false why
 Python caches small integers (typically between -5 and 256). This means that if you create an integer within this range, Python will reuse the same object in memory for efficiency.
+
+
+"r" - Read - Default value. Opens a file for reading, error if the file does not exist
+
+"a" - Append - Opens a file for appending, creates the file if it does not exist
+
+"w" - Write - Opens a file for writing, creates the file if it does not exist
+
+"x" - Create - Creates the specified file, returns an error if the file exists
+"t" - Text - Default value. Text mode
+
+"b" - Binary - Binary mode (e.g. images)
+
+f = open("demofile.txt", "rt")
+print(f.read())
+print(f.readline())#using with the loop as it read one line at a time
+f.write("Woops! I have deleted the content!")
