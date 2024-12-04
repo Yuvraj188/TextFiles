@@ -25,7 +25,7 @@ print(s.upper())   # output: HELLO WORLD
 
 print(s.lower())   # output: hello world
 
-print(s.strip()) 
+print(s.strip()) #default is all " ","\n" etc. but we can also give like s.strip("#")
 
 str.find(substring)
 Description: Returns the lowest index of the substring if it exists. Returns -1 if not found.
@@ -53,7 +53,7 @@ str.islower()
 
 str.isalpha()
 
-sort() is in-place and only for lists, while sorted() works on any iterable and returns a new sorted list.
+sort() is in-place and only for lists and returns none, while sorted() works on any iterable and returns a new sorted list.
 sort() modifies the original list, while sorted() leaves the original iterable unchanged.
 Use reverse() when you need to reverse a list in place and do not need to keep the original order.
 Use reversed() when you need an iterator for the reversed order of any iterable and want to keep the original iterable unchanged. You can convert the iterator into a list if needed by wrapping it with list() or tuple().
@@ -113,12 +113,16 @@ Tuples are immutable and hence they do not allow deletion of a part of it. The e
 sorted works for tuple
 list.index(element, start=0, end=len(list))#available in tuple also
 list.count(element) #if no count return 0
+# Create a list
+my_list = [1, 2, 3]
 
+# Create a tuple that contains the list as an element
+my_tuple = (4, 5, my_list, 6) #we can add list as a element in tuple and While the tuple itself is immutable (you cannot modify the tuple directly), any mutable objects inside the tuple (like a list) can still be changed. For example, you can modify the contents of the list that is inside the tuple.
 
 In Python Data Types, a Set is an unordered collection of data types that is iterable, mutable, and has no duplicate elements. 
 Using add() Method=set1.add(9)
 Using update() Method=set1.update([10, 11]) this will add 10 and 11 to set
-
+we can add set as a element in list 
 
 Using remove() Method or discard() Method===>set1.remove(5)
 Discard=>If the element is not present, it does nothing (no error).	remove=>If the element is not found, it raises a KeyError.
@@ -132,7 +136,7 @@ A frozenset is a built-in data structure in Python that is very similar to a set
 
 
 A dictionary in Python is an unordered collection of data values, used to store data values like a map, unlike other Python Data Types that hold only a single value as an element, a Dictionary holds a key: value pair. 
-
+In Python 3.7 and later, dictionaries maintain order of insertion internally
 dict1 = {"a": 1, "b": 2}
 dict2 = {"b": 3, "c": 4}
 
@@ -142,11 +146,13 @@ dict1.get("key")=>return none if not present
 x = thisdict.items() return dict as list with key value pairs=>The returned list is a view of the items of the dictionary, meaning that any changes done to the dictionary will be reflected in the items list.
 
 del my_dict[key]: Removes a specific key-value pair.
-my_dict.pop(key): Removes and returns the value of the specified key.
+my_dict.pop(key): Removes and returns the value of the specified key.and remove key value pair
 my_dict.popitem(): Removes and returns the last inserted key-value pair (useful for LIFO order).
 my_dict.clear(): Removes all key-value pairs from the dictionary.
+# Convert items to a list
+items_list = list(my_dict.items())
 
-mydict = dict(thisdict)# this will make copy of dict
+mydict = thisdict.copy()# this will make copy of dict
 
 for x, obj in myfamily.items():# to loop in nested dictionaries
   print(x)
@@ -256,6 +262,7 @@ x = -1
 
 if x < 0:
     raise ValueError("The value of x cannot be negative!")
+    raise Exception("The value of x cannot be negative!")
 
 
 The map() function in Python is used to apply a function to each item in an iterable (such as a list, tuple, or string) and return a new iterable (usually a map object, which can be converted to a list, tuple, etc.).
@@ -337,3 +344,8 @@ f = open("demofile.txt", "rt")
 print(f.read())
 print(f.readline())#using with the loop as it read one line at a time
 f.write("Woops! I have deleted the content!")
+
+
+Immutable objects (e.g., integers, strings, tuples): If you modify the variable inside the function, the original value outside the function won't change because a new object is created.
+
+Mutable objects (e.g., lists, dictionaries, sets): If you modify the variable inside the function, the original value outside the function will change because the object is modified in place.

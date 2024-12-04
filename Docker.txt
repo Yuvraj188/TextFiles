@@ -1,3 +1,6 @@
+
+Docker is an open-source platform used for automating the deployment, scaling, and management of applications inside containers. It provides a consistent environment for applications, ensuring that they run the same way regardless of where they are deployed, whether it's on a developer's local machine, a testing environment, or a production server.
+
 Docker containers rely on Linux kernel features, which is why even on Windows, Docker sets up a Linux environment to run Linux-based containers.
 
 

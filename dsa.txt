@@ -1,0 +1,69 @@
+1)all substrings of string:
+for i in range(len(s)):
+    for j in range(i + 1, len(s) + 1):
+        print(s[i:j])
+
+2)max len substring of string without repeating character:
+
+        i = 0  # Left pointer, initially pointing to the first character
+        if len(s) == 0:
+            return 0
+        
+        mx = 0  # To store the maximum length of the substring found
+        di = {}  # Dictionary to store the last occurrence of each character
+        
+        for j in range(len(s)):
+            if s[j] in di and di[s[j]] >= i:#so that i dont goes to previous elements already visited
+                # If s[j] is in di and it's in the current window, move `i`
+                i = di[s[j]] + 1
+            
+            di[s[j]] = j  # Update the last occurrence of s[j]
+            mx = max(mx, j - i + 1)  # Update the maximum length
+        
+        return mx
+3)maximum sum of subarray
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        sum=0
+        maxs=-10000
+        for i in range(len(nums)):
+            if sum<0:
+                sum=0
+            sum=sum+nums[i]
+            maxs=max(maxs,sum)
+        return maxs
+4)maximum product subarray
+5)maximum points you can obtain from card
+The given code defines a function maxScore to calculate the maximum score achievable by selecting k cards from either the beginning or the end of a list cardPoints. First, it handles the case where k equals the length of the list by returning the sum of all elements. Then, it initializes two pointers: one at the beginning (i) and one at the end (j) of the list, along with variables to track the left sum (ls), right sum (rs), and the maximum score (maxs). It first computes the sum of the first k cards (ls), then iterates over both ends of the list, progressively adjusting the sums and comparing the potential score with the maximum found so far, updating maxs accordingly. Finally, it returns the maximum score.
+
+
+6)Fruit Into Baskets
+
+The solution employs a sliding window approach with a dictionary to track the count of distinct fruits in the current window. Initially, two pointers i and j define the window, and a dictionary di stores the frequency of fruits. As the right pointer j moves across the array, the fruit at arr[j] is added to the dictionary. If the dictionary contains more than two distinct fruits, the left pointer i is incremented to shrink the window until there are only two distinct fruits. During each iteration, the maximum window size (j - i + 1) is tracked and updated in smax. At the end, smax holds the length of the longest subarray that contains at most two distinct fruits. This solution efficiently handles the problem with a time complexity of O(n), where n is the length of the array.
+
+7)424. Longest Repeating Character Replacement
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        i, j = 0, 0
+        mx = 0
+        di = {}
+        
+        for j in range(len(s)):
+            # Update the frequency of the current character
+            di[s[j]] = di.get(s[j], 0) + 1
+            
+            # Find the maximum frequency of any character in the current window
+            max_freq = max(di.values())
+            
+            # Check if we need more than k replacements
+            while (j - i + 1) - max_freq > k:
+                di[s[i]] -= 1
+                if di[s[i]] == 0:
+                    del di[s[i]]
+                i += 1  # Shrink the window from the left
+            
+            # Update the maximum length of the valid window
+            mx = max(mx, j - i + 1)
+        
+        return mx
+
